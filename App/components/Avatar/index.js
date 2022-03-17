@@ -9,8 +9,9 @@ import {styles} from './styles';
 const Avatar = ({ source, showBadge = true, badgeActive = true, size="lg"}) => {
     const sizeStyle = (size === "lg") ? styles.sizelg : styles.sizemd;
     const badgeStyle = (size === "lg") ? styles.badgePoslg : styles.badgePosmd;
+    const containerStyle = (size === "lg") ? styles.containerlg : styles.containermd;
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             <Image
                 source={source}
                 style={[styles.image, sizeStyle]}

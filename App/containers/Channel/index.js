@@ -3,63 +3,57 @@ import {
     SafeAreaView,
     Image,
     View,
-    Text
+    Text,
+    FlatList
   } from 'react-native';
 import AuthInput from '../../components/AuthInput';
+import ChannelCard from '../../components/ChannelCard';
 import LinkButton from '../../components/LinkButton';
 import OutlineButton from '../../components/OutlineButton';
+import ApplicationStyles from '../../utils/ApplicationStyles';
 import Images from '../../utils/Images';
 import {styles} from './styles';
 
 const ChannelScreen = ({ navigation }) => {
-    const [userName, setUserName] = React.useState("");
-    const [password, setPassword] = React.useState("");
+    const channels = [{
+        id: "1",
+        avatar: Images.template_user,
+        title: "Dr. Patricia Speidel, DMD",
+        message: "Hey! Wanted to reach out regarding ...",
+        time: "12:45 PM"
+    }, {
+        id: "2",
+        avatar: Images.template_user,
+        title: "Susie Cassin, RDH",
+        message: "Just make sure you’re flossing regularl...",
+        time: "11/15/2021"
+    }];
+    const archivedChannels = [];
+    const renderItem = ({ item }) => (
+      <ChannelCard {...item} />
+    );
     return (
         <SafeAreaView style={styles.container}>
-            <Image            
-                source={Images.ic_logo}
-                style={styles.logo}
-                resizeMode={'contain'}
+            <FlatList
+                style={styles.mainList}
+                data={channels}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
             />
-            <Text style={styles.greetingText}>
-                Make your best smile.
+            <Text
+                style={[ApplicationStyles.primaryLabel, ApplicationStyles.textCenter, styles.archived]}
+            >
+                Archived
             </Text>
-            <View style={styles.inputForm}>
-                <AuthInput
-                    placeholder='Username'
-                    icon={Images.ic_user_simple}
-                    value={userName}
-                    onChangeText={(v) => {console.log(v); setUserName(v)}}
-                    borderType={"roundTop"}
-                />
-                <AuthInput
-                    placeholder='Password'
-                    icon={Images.ic_edit}
-                    value={password}
-                    onChangeText={(v) => setPassword(v)}
-                    borderType={"roundBottom"}
-                />
-            </View>
-            <View style={styles.loginWrapper}>
-                <OutlineButton
-                    title="Login"
-                    onPress={() => {}}
-                />
-            </View>
-            <View style={styles.forgetWrapper}>
-                <LinkButton
-                    title="Forget password?"
-                    underline={false}
-                    onPress={() => {}}
-                />
-            </View>
-            <View style={styles.noteWrapper}>
-                <Text style={styles.noteText}>Don't have an account? </Text>
-                <LinkButton
-                    title="Sign up here."
-                    onPress={() => {}}
-                />
-            </View>
+            <FlatList
+                style={styles.mainList}
+                data={archivedChannels}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                ListEmptyComponent={
+                    <Text style={[ApplicationStyles.textDesc, ApplicationStyles.textCenter]}>Nothing to see here</Text>
+                }
+            />
         </SafeAreaView>
     );
 };

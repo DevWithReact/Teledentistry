@@ -6,7 +6,15 @@ import {textScale} from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
-    position: 'relative'
+    position: 'relative',
+  },
+  containerlg: {
+    width: scale(103),
+    height: scale(103)
+  },
+  containermd: {
+    width: scale(46),
+    height: scale(46)
   },
   sizelg: {
     width: scale(103),
@@ -21,9 +29,9 @@ export const styles = StyleSheet.create({
   },
   badge: {
     position: 'absolute',
-    width: scale(12),
-    height: scale(12),
-    borderRadius: scale(5.5),
+    width: scale(15),
+    height: scale(15),
+    borderRadius: scale(7.5),
     borderColor: Colors.white,
     borderWidth: 2,
   },
@@ -32,8 +40,8 @@ export const styles = StyleSheet.create({
     bottom: scale(8),
   },
   badgePosmd: {
-    left: scale(2),
-    bottom: scale(2),
+    left: scale(0),
+    bottom: scale(0),
   },
   babelActive: {    
     backgroundColor: Colors.badgeColor,

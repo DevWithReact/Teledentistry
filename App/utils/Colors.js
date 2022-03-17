@@ -4,6 +4,7 @@ export default {
 
   mintColor: '#A6D1BF',
   lightGrayColor: '#E9E8E6',
+  mediumGrayColor: '#ADB3BC',
 
   badgeColor: '#01D47B',
   greyColor: '#8B8B8B',
@@ -19,5 +20,7 @@ export default {
   textInputColor: '#000000',
   textInputPlacholder: '#161616',
 
-  transparent: '#00000000'
+  transparent: '#00000000',
+  white: '#FFFFFF',
+  black: '#000000'
 };

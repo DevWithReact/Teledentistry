@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 const consumerTabs = [
     {
         name: "Mail",
-        icon: "ic_chat",
+        icon: "ic_mail",
         component: ConsumerMailScreen
     }, {
         name: "Chat",
@@ -49,7 +49,7 @@ const dentistTabs = [
     }
 ]
 const HomeNavigator = () => {
-    const isConsumer = false;
+    const isConsumer = true;
     const activeTabs = 
         isConsumer ? consumerTabs : dentistTabs;
 

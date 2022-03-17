@@ -10,7 +10,26 @@ export default {
   ic_user_inactive: require('./../assets/images/User-inactive.png'),
   ic_watch: require('./../assets/images/Watch.png'),
   ic_watch_inactive: require('./../assets/images/Watch-inactive.png'),
+  ic_phone: require('./../assets/images/Phone.png'),
+  ic_phone_inactive: require('./../assets/images/Phone-inactive.png'),
 
   ic_user_simple: require('./../assets/images/User-simple.png'),
-  ic_edit: require('./../assets/images/edit.png')
+  ic_edit: require('./../assets/images/edit.png'),
+  ic_info: require('./../assets/images/info.png'),
+  ic_chevron_right: require('./../assets/images/chevron-right.png'),
+  ic_chevron_right_grey: require('./../assets/images/chevron-right-grey.png'),
+  ic_chevron_left: require('./../assets/images/chevron-left.png'),
+  ic_search: require('./../assets/images/search.png'),
+  ic_webcam: require('./../assets/images/webcam.png'),
+  ic_export: require('./../assets/images/export.png'),
+  ic_options_vertical: require('./../assets/images/options-vertical.png'),
+  ic_options_vertical_inactive: require('./../assets/images/options-vertical-inactive.png'),
+  ic_seen: require('./../assets/images/Seen.png'),
+  ic_camera: require('./../assets/images/Camera.png'),
+  ic_voice: require('./../assets/images/voice.png'),
+  ic_recording: require('./../assets/images/recording.png'),
+
+
+  template_user: require('./../assets/images/template-user.png'),
+  template_graph: require('./../assets/images/template-graph.png'),
 };
