@@ -9,10 +9,32 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white
   },
+  appBar: {
+    width: '100%',
+    height: scale(56),
+    paddingTop: scale(25),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderColor: Colors.lightGrayColor,
+    borderBottomWidth: 1,
+  },
+  action: {
+    position: 'absolute',
+    right: scale(27),
+    bottom: scale(13),
+  },
   mainList: {
-    flexGrow: 0
+    flexGrow: 0,
+    borderColor: Colors.lightGrayColor,
+    borderBottomWidth: 1,
+  },
+  archivedList: {
+    flexGrow: 0,
+    borderColor: Colors.lightGrayColor,
+    borderBottomWidth: 1,
+    borderTopWidth: 1
   },
   archived: {
-    marginTop: scale(23)
+    marginVertical: scale(23)
   }
 });

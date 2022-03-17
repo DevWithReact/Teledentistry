@@ -14,13 +14,11 @@ export default StyleSheet.create({
     fontSize: textScale(13),
     fontWeight: '700',
     color: Colors.primaryColor,
-    marginTop: scale(10)
   },
   textDesc: {    
     fontFamily: Fonts.EpilogueBold,
     fontSize: textScale(12),
     color: Colors.greyColor,
-    marginTop: scale(5)
   },
   textCenter: {
     textAlign: 'center'

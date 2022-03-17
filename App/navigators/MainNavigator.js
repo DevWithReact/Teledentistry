@@ -5,12 +5,13 @@ import SplashScreen from '../containers/Splash';
 import SignInScreen from '../containers/SignIn';
 import HomeNavigator from './HomeNavigator';
 import ChatScreen from '../containers/Chat';
+import SignUpScreen from '../containers/SignUp';
 
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
-    const isSignedIn  = true;
+    const isSignedIn  = false;
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const MainNavigator = () => {
             ) : (
             <>
                 <Stack.Screen name="SignIn" component={SignInScreen} />
-                <Stack.Screen name="SignUp" component={SignInScreen} />
+                <Stack.Screen name="SignUp" component={SignUpScreen} />
             </>
             )
         }

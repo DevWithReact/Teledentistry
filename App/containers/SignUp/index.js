@@ -11,7 +11,7 @@ import OutlineButton from '../../components/OutlineButton';
 import Images from '../../utils/Images';
 import {styles} from './styles';
 
-const SignInScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     return (
@@ -22,7 +22,7 @@ const SignInScreen = ({ navigation }) => {
                 resizeMode={'contain'}
             />
             <Text style={styles.greetingText}>
-                Make your best smile.
+                Create a new account.
             </Text>
             <View style={styles.inputForm}>
                 <AuthInput
@@ -42,23 +42,16 @@ const SignInScreen = ({ navigation }) => {
             </View>
             <View style={styles.loginWrapper}>
                 <OutlineButton
-                    title="Login"
-                    onPress={() => {}}
-                />
-            </View>
-            <View style={styles.forgetWrapper}>
-                <LinkButton
-                    title="Forget password?"
-                    underline={false}
+                    title="Create account"
                     onPress={() => {}}
                 />
             </View>
             <View style={styles.noteWrapper}>
-                <Text style={styles.noteText}>Don't have an account? </Text>
+                <Text style={styles.noteText}>Already have an account? </Text>
                 <LinkButton
-                    title="Sign up here."
+                    title="Log in here."
                     onPress={() => {
-                        navigation.navigate("SignUp");
+                        navigation.navigate("SignIn");
                     }}
                 />
             </View>
@@ -66,4 +59,4 @@ const SignInScreen = ({ navigation }) => {
     );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
