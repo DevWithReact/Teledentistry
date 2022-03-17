@@ -17,17 +17,28 @@ export const styles = StyleSheet.create({
     height: scale(46)
   },
   image: {
-    borderRadius: '50%'
+    borderRadius: scale(55)
   },
   badge: {
     position: 'absolute',
-    left: scale(10),
-    bottom: scale(10),
-    width: scale(11),
-    height: scale(11),
-    borderRadius: '50%',
-    backgroundColor: Colors.mintColor,
-    borderColor: Colors.captionColor,
-    borderWidth: 1,
+    width: scale(12),
+    height: scale(12),
+    borderRadius: scale(5.5),
+    borderColor: Colors.white,
+    borderWidth: 2,
+  },
+  badgePoslg: {
+    left: scale(8),
+    bottom: scale(8),
+  },
+  badgePosmd: {
+    left: scale(2),
+    bottom: scale(2),
+  },
+  babelActive: {    
+    backgroundColor: Colors.badgeColor,
+  },  
+  babelInactive: {    
+    backgroundColor: Colors.lightGrayColor,
   }
 });
