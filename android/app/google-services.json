@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "202642104807",
-    "project_id": "teledentistry-f657e",
-    "storage_bucket": "teledentistry-f657e.appspot.com"
+    "project_number": "139706979511",
+    "project_id": "flutter-location-aee8f",
+    "storage_bucket": "flutter-location-aee8f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:202642104807:android:3f012c2607b99de7db9d42",
+        "mobilesdk_app_id": "1:139706979511:android:10af34e2b4e1ed91a8a932",
         "android_client_info": {
           "package_name": "com.teledentistry"
         }
       },
       "oauth_client": [
         {
-          "client_id": "202642104807-ea42rgm4vrau05u9ekil4e33ddku1suv.apps.googleusercontent.com",
+          "client_id": "139706979511-rhvj96n7943k9fa1qcko6gant9bv8pm1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.teledentistry",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "202642104807-t54uc5s1831umieie5dg20d83dcpi42r.apps.googleusercontent.com",
+          "client_id": "139706979511-uarbttrs3lk9siti0250shuagg3nhqmo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAMGKQIL0UOmIRdZ_CW6OG1WnUCFNlY87Q"
+          "current_key": "AIzaSyDUXvNFs8bgFbUENv2i5Z5CB9GCnjrdDow"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "202642104807-t54uc5s1831umieie5dg20d83dcpi42r.apps.googleusercontent.com",
+              "client_id": "139706979511-uarbttrs3lk9siti0250shuagg3nhqmo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

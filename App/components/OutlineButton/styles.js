@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
   container: {
     width: scale(255),
     height: scale(36),
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.transparent,
     borderRadius: scale(17),

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../containers/Splash';
@@ -6,11 +6,13 @@ import SignInScreen from '../containers/SignIn';
 import HomeNavigator from './HomeNavigator';
 import ChatScreen from '../containers/Chat';
 import SignUpScreen from '../containers/SignUp';
+import { AuthContext } from '../AuthProvider';
 
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
+    const { user } = useContext(AuthContext);
     const isSignedIn  = true;
     const [isLoading, setLoading] = useState(true);
 
@@ -28,7 +30,7 @@ const MainNavigator = () => {
     <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
         {
-        isSignedIn ? (
+        user ? (
             <>
                 <Stack.Screen name="Home" component={HomeNavigator} />
                 <Stack.Screen name="Chat" component={ChatScreen}/>

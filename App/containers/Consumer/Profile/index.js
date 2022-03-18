@@ -6,13 +6,16 @@ import {
   View,
   Text
 } from 'react-native';
+import { AuthContext } from '../../../AuthProvider';
 import AppointmentCard from '../../../components/AppointmentCard';
 import Avatar from '../../../components/Avatar';
 import DentistCard from '../../../components/DentistCard';
+import LinkButton from '../../../components/LinkButton';
 import Images from '../../../utils/Images';
 import {styles} from './styles';
 
 const ConsumerProfileScreen = ({ navigation }) => {
+    const {logout} = React.useContext(AuthContext);
     return (
         <ScrollView style={styles.container}>
             <View style={styles.sectionProfile}>
@@ -43,6 +46,12 @@ const ConsumerProfileScreen = ({ navigation }) => {
                 description='You have a reservation with Patricia for 8/07/2021'
               />
             </View>
+            <LinkButton
+              title="Logout"
+              onPress={() => {
+                logout();
+              }}
+            />
         </ScrollView>
     );
 };

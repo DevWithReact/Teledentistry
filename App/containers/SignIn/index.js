@@ -5,6 +5,7 @@ import {
     View,
     Text
   } from 'react-native';
+import { AuthContext } from '../../AuthProvider';
 import AuthInput from '../../components/AuthInput';
 import LinkButton from '../../components/LinkButton';
 import OutlineButton from '../../components/OutlineButton';
@@ -12,6 +13,7 @@ import Images from '../../utils/Images';
 import {styles} from './styles';
 
 const SignInScreen = ({ navigation }) => {
+    const {loading, login} = React.useContext(AuthContext);
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     return (
@@ -43,14 +45,18 @@ const SignInScreen = ({ navigation }) => {
             <View style={styles.loginWrapper}>
                 <OutlineButton
                     title="Login"
-                    onPress={() => {}}
+                    loading={loading}
+                    onPress={() => {        
+                        login(userName, password);
+                    }}
                 />
             </View>
             <View style={styles.forgetWrapper}>
                 <LinkButton
                     title="Forget password?"
                     underline={false}
-                    onPress={() => {}}
+                    onPress={() => {
+                    }}
                 />
             </View>
             <View style={styles.noteWrapper}>
