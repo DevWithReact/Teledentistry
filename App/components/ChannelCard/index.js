@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import {styles} from './styles';
 import Images from '../../utils/Images';
 import Avatar from '../Avatar';
+import { convertChatTime } from '../../utils/commonUtil';
 
 const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {    
     return (
@@ -25,7 +26,7 @@ const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {
             <View style={styles.sectionMiddle}>
                 <Text style={styles.textHeading}>{title}</Text>
                 <Text style={styles.textDesc}>{message}</Text>
-                <Text style={styles.textDesc}>{time}</Text>
+                <Text style={styles.textDesc}>{convertChatTime(time)}</Text>
             </View>
             <Image
                 source={active ? Images.ic_chevron_right : Images.ic_chevron_right_grey}
@@ -39,7 +40,7 @@ ChannelCard.propTypes = {
     avatar: PropTypes.any,
     title: PropTypes.string,
     message: PropTypes.string,
-    time: PropTypes.string,
+    time: PropTypes.object,
     active: PropTypes.bool,
     onPress: PropTypes.func,
     dentist: PropTypes.any,

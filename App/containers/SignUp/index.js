@@ -29,7 +29,7 @@ const SignUpScreen = ({ navigation }) => {
                     placeholder='Username'
                     icon={Images.ic_user_simple}
                     value={userName}
-                    onChangeText={(v) => {console.log(v); setUserName(v)}}
+                    onChangeText={(v) => setUserName(v)}
                     borderType={"roundTop"}
                 />
                 <AuthInput

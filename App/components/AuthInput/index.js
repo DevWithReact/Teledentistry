@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {styles} from './styles';
 import Colors from '../../utils/Colors';
 
-const AuthInput = ({ placeholder, icon, value, onChangeText, borderType}) => {
+const AuthInput = ({ placeholder, icon, value, onChangeText, borderType, secureTextEntry}) => {
     let borderStyle = {};
     if (borderType === 'roundTop') {
         borderStyle = styles.borderTop;
@@ -25,7 +25,8 @@ const AuthInput = ({ placeholder, icon, value, onChangeText, borderType}) => {
             <TextInput
                 placeholder={placeholder}
                 placeholderTextColor={Colors.textInputPlacholder}
-                returnKeyType="done"
+                returnKeyType="next"
+                secureTextEntry={secureTextEntry}
                 style={styles.authInput}
                 numberOfLines={1}
                 value={value}
@@ -40,7 +41,8 @@ AuthInput.propTypes = {
     icon: PropTypes.number,
     value: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
-    borderType: PropTypes.string
+    borderType: PropTypes.string,
+    secureTextEntry: PropTypes.bool
 }
 
 export default AuthInput;

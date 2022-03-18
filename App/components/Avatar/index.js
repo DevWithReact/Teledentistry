@@ -13,7 +13,7 @@ const Avatar = ({ source, showBadge = true, badgeActive = true, size="lg"}) => {
     return (
         <View style={[styles.container, containerStyle]}>
             <Image
-                source={source}
+                source={typeof source == "string" ? {uri: source} : source}
                 style={[styles.image, sizeStyle]}
             />
             {showBadge && (

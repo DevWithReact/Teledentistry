@@ -24,15 +24,10 @@ export const styles = StyleSheet.create({
     bottom: scale(13),
   },
   mainList: {
-    flexGrow: 0,
-    borderColor: Colors.lightGrayColor,
-    borderBottomWidth: 1,
+    flexGrow: 0
   },
   archivedList: {
     flexGrow: 0,
-    borderColor: Colors.lightGrayColor,
-    borderBottomWidth: 1,
-    borderTopWidth: 1
   },
   archived: {
     marginVertical: scale(23)

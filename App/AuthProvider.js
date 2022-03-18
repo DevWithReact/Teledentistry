@@ -1,10 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -12,6 +14,19 @@ export const AuthProvider = ({ children }) => {
     const unsubscribeAuth = auth().onAuthStateChanged(
       async authenticatedUser => {
         authenticatedUser ? setUser(authenticatedUser) : setUser(null);
+        if (authenticatedUser) {
+          firestore()
+            .collection('users')
+            .doc(authenticatedUser.uid)
+            .get()
+            .then(documentSnapshot => {
+              console.log('User exists: ', documentSnapshot.exists);
+              if (documentSnapshot.exists) {
+                console.log('User Profile', documentSnapshot.data());
+                setUserProfile(documentSnapshot.data());
+              }
+            });
+        }
       }
     );
 
@@ -23,9 +38,8 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        setUser,
+        userProfile,
         loading,
-        setLoading,
         login: async (email, password) => {
           if (email !== '' && password !== '') {
             setLoading(true);
