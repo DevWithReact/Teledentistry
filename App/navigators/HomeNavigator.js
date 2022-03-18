@@ -48,7 +48,7 @@ const dentistTabs = [
         component: DentistProfileScreen
     }
 ]
-const HomeNavigator = () => {
+const HomeNavigator = ({navigation}) => {
     const isConsumer = true;
     const activeTabs = 
         isConsumer ? consumerTabs : dentistTabs;
@@ -62,12 +62,23 @@ const HomeNavigator = () => {
                 <Tab.Screen
                     key={t.name}
                     name={t.name}
-                    component={t.component}
                     options={{                            
                         tabBarShowLabel: false,
                         tabBarIcon: ({focused, color}) => <Image source={Images[focused ? t.icon : `${t.icon}_inactive`]}/>
                     }}
-                />
+                >
+                 {
+                    ({navigation: n}) => {
+                        const Screen = t.component;
+                        return (
+                            <Screen
+                                navigation={n}
+                                parentNavigation={navigation}
+                            />
+                        );
+                    }
+                 }
+                </Tab.Screen>
             ))
         }
         </Tab.Navigator>

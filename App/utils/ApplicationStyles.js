@@ -15,6 +15,12 @@ export default StyleSheet.create({
     fontWeight: '700',
     color: Colors.primaryColor,
   },
+  darkLabel: {
+    fontFamily: Fonts.EpilogueBold,
+    fontSize: textScale(14),
+    fontWeight: '700',
+    color: Colors.black,
+  },
   textDesc: {    
     fontFamily: Fonts.EpilogueBold,
     fontSize: textScale(12),

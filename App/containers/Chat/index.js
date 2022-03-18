@@ -3,63 +3,84 @@ import {
     SafeAreaView,
     Image,
     View,
-    Text
+    Text,
+    FlatList
   } from 'react-native';
-import AuthInput from '../../components/AuthInput';
-import LinkButton from '../../components/LinkButton';
-import OutlineButton from '../../components/OutlineButton';
+import ChannelCard from '../../components/ChannelCard';
+import IconButton from '../../components/IconButton';
+import { GiftedChat } from 'react-native-gifted-chat'
+import ApplicationStyles from '../../utils/ApplicationStyles';
 import Images from '../../utils/Images';
 import {styles} from './styles';
 
-const ChatScreen = ({ navigation }) => {
-    const [userName, setUserName] = React.useState("");
-    const [password, setPassword] = React.useState("");
+const ChatScreen = ({ navigation }) => {    
+    const [messages, setMessages] = React.useState([]);    
+    React.useEffect(() => {
+        setMessages([
+        {
+            _id: 1,
+            text: 'Hello developer',
+            createdAt: new Date(),
+            sent: true,
+            received: true,
+            user: {
+                _id: 2,
+                name: 'React Native',
+                avatar: 'https://placeimg.com/140/140/any',
+            },
+        },
+        ])
+    }, [])
+
+    const onSend = React.useCallback((messages = []) => {
+        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+    }, [])
+
     return (
         <SafeAreaView style={styles.container}>
-            <Image            
-                source={Images.ic_logo}
-                style={styles.logo}
-                resizeMode={'contain'}
-            />
-            <Text style={styles.greetingText}>
-                Make your best smile.
-            </Text>
-            <View style={styles.inputForm}>
-                <AuthInput
-                    placeholder='Username'
-                    icon={Images.ic_user_simple}
-                    value={userName}
-                    onChangeText={(v) => {console.log(v); setUserName(v)}}
-                    borderType={"roundTop"}
-                />
-                <AuthInput
-                    placeholder='Password'
-                    icon={Images.ic_edit}
-                    value={password}
-                    onChangeText={(v) => setPassword(v)}
-                    borderType={"roundBottom"}
-                />
+            <View style={styles.appBar}>
+                <View style={styles.left_actions}>
+                    <IconButton
+                        icon={Images.ic_chevron_left}
+                        width={12}
+                        height={21}
+                        onPress={() => {}}
+                    />
+                </View>
+                <Text style={[ApplicationStyles.darkLabel, styles.appbarText]}>
+                    Dr. Patricia Speidel
+                </Text>
+                <View style={styles.end_actions}>                    
+                    <IconButton
+                        icon={Images.ic_webcam}
+                        width={24}
+                        height={24}
+                        onPress={() => {}}
+                    />
+                    <View style={styles.space}/>
+                    <IconButton
+                        icon={Images.ic_export}
+                        width={20}
+                        height={20}
+                        onPress={() => {}}
+                    />
+                    <View style={styles.space}/>
+                    <IconButton
+                        icon={Images.ic_options_vertical}
+                        width={20}
+                        height={20}
+                        onPress={() => {}}
+                    />
+                </View>
             </View>
-            <View style={styles.loginWrapper}>
-                <OutlineButton
-                    title="Login"
-                    onPress={() => {}}
-                />
-            </View>
-            <View style={styles.forgetWrapper}>
-                <LinkButton
-                    title="Forget password?"
-                    underline={false}
-                    onPress={() => {}}
-                />
-            </View>
-            <View style={styles.noteWrapper}>
-                <Text style={styles.noteText}>Don't have an account? </Text>
-                <LinkButton
-                    title="Sign up here."
-                    onPress={() => {}}
-                />
-            </View>
+           <GiftedChat
+                messages={messages}
+                onSend={messages => onSend(messages)}
+                user={{
+                    _id: 1,
+                }}
+                isTyping={true}
+           />
         </SafeAreaView>
     );
 };

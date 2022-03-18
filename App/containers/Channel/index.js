@@ -15,7 +15,7 @@ import ApplicationStyles from '../../utils/ApplicationStyles';
 import Images from '../../utils/Images';
 import {styles} from './styles';
 
-const ChannelScreen = ({ navigation }) => {
+const ChannelScreen = ({ navigation, parentNavigation }) => {
     const channels = [{
         id: "1",
         avatar: Images.template_user,
@@ -96,7 +96,9 @@ const ChannelScreen = ({ navigation }) => {
                 <View style={styles.action}>
                     <IconButton
                         icon={Images.ic_search}
-                        onPress={() => {}}
+                        onPress={() => {
+                            parentNavigation.navigate("Chat");
+                        }}
                     />
                 </View>
             </View>

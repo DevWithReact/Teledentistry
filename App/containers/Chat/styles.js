@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import Fonts from '../../utils/Fonts';
 import Colors from '../../utils/Colors';
 import {scale, scaleVertical} from '../../utils/scale';
@@ -6,40 +6,56 @@ import { textScale } from '../../utils/textUtil';
 
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
-    backgroundColor: Colors.primaryColor
+    backgroundColor: Colors.white
   },
-  logo: {    
-      marginTop: scale(106),
-      width: scale(140),
-      height: scale(70),
-  },
-  greetingText: {
-    fontFamily: Fonts.EpilogueBold,
-    fontSize: textScale(18),
-    fontWeight: '700',
-    color: 'white',
-    marginTop: scale(49)
-  },
-  inputForm: {
-    marginTop: scale(65)
-  },
-  noteWrapper: {  
+  appBar: {
+    width: '100%',
+    height: scale(56),
+    paddingTop: scale(12),
+    paddingHorizontal: scale(22),
     flexDirection: 'row',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: scale(47)
+    alignItems: 'center',
+    ...Platform.select({
+      android:{
+         borderBottomWidth:2,
+         borderBottomColor:'#F3F4F577'      
+      },
+      default:{
+        shadowColor: '#F3F4F5',
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 3.84,
+        shadowOpacity: 0.8,
+      }
+    })
   },
-  noteText: {
-    fontFamily: Fonts.EpilogueBold,
-    fontSize: 15,
-    color: 'white'
+  left_actions: {
+    flexDirection: 'row',
   },
-  loginWrapper: {
-    marginTop: scale(46)
+  end_actions: {    
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  forgetWrapper: {
-    marginTop: scale(24)
+  space: {
+    width: scale(20)
+  },
+  appbarText: {
+    flex: 1,
+    textAlign: 'left',
+    marginLeft: scale(20)
+  },
+  mainList: {
+    flexGrow: 0,
+    borderColor: Colors.lightGrayColor,
+    borderBottomWidth: 1,
+  },
+  archivedList: {
+    flexGrow: 0,
+    borderColor: Colors.lightGrayColor,
+    borderBottomWidth: 1,
+    borderTopWidth: 1
+  },
+  archived: {
+    marginVertical: scale(23)
   }
 });

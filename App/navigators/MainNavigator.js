@@ -11,7 +11,7 @@ import SignUpScreen from '../containers/SignUp';
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
-    const isSignedIn  = false;
+    const isSignedIn  = true;
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
