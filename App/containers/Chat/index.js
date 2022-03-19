@@ -16,6 +16,14 @@ import emojiUtils from 'emoji-utils'
 import {styles} from './styles';
 import { AuthContext } from '../../AuthProvider';
 import CustomMessage from './CustomMessage'
+import {
+  Send,
+  Composer,
+  InputToolbar
+} from 'react-native-gifted-chat'
+import { scale } from '../../utils/scale';
+import ActionButton from '../../components/ActionButton';
+import Colors from '../../utils/Colors';
 
 const ChatScreen = ({ route, navigation }) => {
     const { user, userProfile } = React.useContext(AuthContext);
@@ -27,6 +35,7 @@ const ChatScreen = ({ route, navigation }) => {
             .collection('channels')
             .doc(channel.id)
             .collection('chats')
+            .orderBy('createdAt', 'desc')
             .onSnapshot(snapshot => {
                 console.log("change", snapshot)
                 const result = snapshot.docs.map(doc => ({
@@ -34,6 +43,8 @@ const ChatScreen = ({ route, navigation }) => {
                     createdAt: doc.data().createdAt.toDate(),
                     text: doc.data().text,
                     user: doc.data().user,
+                    sent: doc.data().sent,
+                    emoticon: doc.data().emoticon
                 }));
                 setMessages(result);
             })
@@ -52,7 +63,8 @@ const ChatScreen = ({ route, navigation }) => {
                 _id,
                 createdAt,
                 text,
-                user
+                user,
+                sent: true,
             })
             .then(() => {
                 console.log('chat added!');
@@ -127,6 +139,36 @@ const ChatScreen = ({ route, navigation }) => {
                 user={userProfile}
                 isTyping={true}
                 renderMessage={renderMessage}
+                renderInputToolbar={(props) => (
+                  <InputToolbar
+                    {...props}
+                    containerStyle={styles.inputToolbar}
+                  />
+                )}
+                renderActions={(props) => (
+                  <View style={styles.actionStyles}
+                  >
+                    <ActionButton
+                      icon={Images.ic_camera}
+                      onPress={() => {}}
+                    />
+                  </View>
+                )}
+                renderComposer={(props) => (
+                  <View style={styles.composerStyle}>
+                    <Composer
+                      {...props}
+                      textInputStyle={styles.composerInput}
+                    />
+                    <Send
+                      {...props}
+                      containerStyle={styles.sendStyle}
+                    >
+                      <Text style={[ApplicationStyles.primaryLabel, {fontSize: scale(14)}]}>Send</Text>
+                    </Send>
+                  </View>
+                )}
+                renderSend={(props) => null}
            />
         </SafeAreaView>
     );

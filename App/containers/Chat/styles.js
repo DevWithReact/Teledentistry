@@ -57,5 +57,35 @@ export const styles = StyleSheet.create({
   },
   archived: {
     marginVertical: scale(23)
+  },
+  inputToolbar: {
+    borderTopWidth: 0,
+    marginBottom: scale(11)
+  },
+  actionStyles: {    
+    justifyContent: 'center',
+    height: '100%',
+    paddingHorizontal: scale(6)
+  },
+  composerStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    borderRadius: scale(25),
+    borderColor: Colors.textInputBorder,
+    borderWidth: 1,
+    paddingHorizontal: scale(6),
+    marginRight: scale(6)
+  },
+  composerInput: {
+    fontFamily: Fonts.Epilogue,
+    fontSize: textScale(14),
+    fontWeight: '500',
+  },
+  sendStyle: {
+    width: scale(60),
+    height: scale(23),
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });

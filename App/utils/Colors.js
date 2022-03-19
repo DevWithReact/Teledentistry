@@ -22,5 +22,7 @@ export default {
 
   transparent: '#00000000',
   white: '#FFFFFF',
-  black: '#000000'
+  black: '#000000',
+
+  actionButtonBackground: '#EEEEEE'
 };

@@ -6,12 +6,7 @@ import { View, ViewPropTypes, StyleSheet, Image } from 'react-native'
 
 import { Bubble, Day, utils } from 'react-native-gifted-chat'
 import CustomBubble from './CustomBubble'
-import Fonts from '../../utils/Fonts';
-import Colors from '../../utils/Colors';
-import Images from '../../utils/Images';
-import {scale, scaleVertical} from '../../utils/scale';
-import {textScale} from '../../utils/textUtil';
-import IconButton from '../../components/IconButton'
+import {scale} from '../../utils/scale';
 
 const { isSameUser, isSameDay } = utils
 
@@ -55,31 +50,6 @@ export default class Message extends React.Component {
     )
   }
 
-  renderEye() {
-    return (
-      <View>
-        <Image
-          source={Images.ic_seen}
-          style={styles.eye}
-        />
-      </View>
-    )
-  }
-  renderOption() {
-    return (
-      <View>
-        <IconButton
-          icon={Images.ic_options_vertical_inactive}
-          width={20}
-          height={20}
-          onPress={() => {
-
-          }}
-        />
-      </View>
-    )
-  }
-
   render() {
     return (
       <View>
@@ -101,9 +71,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginLeft: 8,
+    marginLeft: scale(8),
     marginRight: 0,
-    marginBottom: 8,
+    marginBottom: scale(15),
   },
   slackAvatar: {
     // The bottom should roughly line up with the first line of message text.

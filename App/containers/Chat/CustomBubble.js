@@ -215,6 +215,18 @@ export default class Bubble extends React.Component {
       </View>
     )
   }
+  renderEmoticon() {
+    const { emoticon } = this.props.currentMessage;
+    if (!emoticon)
+      return null;
+    
+    return (
+      <Image
+        source={Images.ic_react_smile}
+        style={styles.emoticon}
+      />
+    )
+  }
 
   render() {
     const isSameThread =
@@ -235,7 +247,9 @@ export default class Bubble extends React.Component {
       } : {
         justifyContent: 'flex-end'
       };
-
+    if (!this.props.previousMessage._id) {
+      containerStyle.marginTop = scale(15);
+    }
     return (
       <View style={[styles.container, this.props.containerStyle, containerStyle]}>        
         {this.renderEye()}
@@ -245,10 +259,7 @@ export default class Bubble extends React.Component {
           {...this.props.touchableProps}
         >
           <View style={[styles.wrapper, this.props.wrapperStyle[position]]}>
-            <Image
-              source={Images.ic_react_smile}
-              style={styles.emoticon}
-            />
+            {this.renderEmoticon()}
             <View>
               {this.renderCustomView()}
               {this.renderMessageImage()}
