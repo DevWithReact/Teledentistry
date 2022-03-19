@@ -29,6 +29,7 @@ export default {
   ic_voice: require('./../assets/images/voice.png'),
   ic_recording: require('./../assets/images/recording.png'),
 
+  ic_react_smile: require('./../assets/images/react-smile.png'),
 
   template_user: require('./../assets/images/template-user.png'),
   template_graph: require('./../assets/images/template-graph.png'),

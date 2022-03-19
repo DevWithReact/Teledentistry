@@ -12,13 +12,15 @@ import { GiftedChat } from 'react-native-gifted-chat'
 import ApplicationStyles from '../../utils/ApplicationStyles';
 import Images from '../../utils/Images';
 import firestore from '@react-native-firebase/firestore';
+import emojiUtils from 'emoji-utils'
 import {styles} from './styles';
 import { AuthContext } from '../../AuthProvider';
+import CustomMessage from './CustomMessage'
 
 const ChatScreen = ({ route, navigation }) => {
     const { user, userProfile } = React.useContext(AuthContext);
     const { channel }  = route.params;
-    console.log(channel)
+    console.log(channel, userProfile)
     const [messages, setMessages] = React.useState([]);    
     React.useEffect(() => {
         const subscriber = firestore()
@@ -57,6 +59,27 @@ const ChatScreen = ({ route, navigation }) => {
             });   
     }, [])
 
+    
+
+    const renderMessage = (props) => {
+        const {
+            currentMessage: { text: currText },
+        } = props
+
+        let messageTextStyle
+
+        // Make "pure emoji" messages much bigger than plain text.
+        if (currText && emojiUtils.isPureEmojiString(currText)) {
+            messageTextStyle = {
+                fontSize: 28,
+                // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
+                lineHeight: Platform.OS === 'android' ? 34 : 30,
+            }
+        }
+
+        return <CustomMessage {...props} messageTextStyle={messageTextStyle} />
+    }
+
 
 
     return (
@@ -67,7 +90,9 @@ const ChatScreen = ({ route, navigation }) => {
                         icon={Images.ic_chevron_left}
                         width={12}
                         height={21}
-                        onPress={() => {}}
+                        onPress={() => {
+                            navigation.pop();
+                        }}
                     />
                 </View>
                 <Text style={[ApplicationStyles.darkLabel, styles.appbarText]}>
@@ -101,6 +126,7 @@ const ChatScreen = ({ route, navigation }) => {
                 onSend={messages => onSend(messages)}
                 user={userProfile}
                 isTyping={true}
+                renderMessage={renderMessage}
            />
         </SafeAreaView>
     );
