@@ -23,6 +23,8 @@ export default {
   transparent: '#00000000',
   white: '#FFFFFF',
   black: '#000000',
+  playButtonBackground: '#EEEEEE',
 
-  actionButtonBackground: '#EEEEEE'
+  actionButtonBackground: '#EEEEEE80',
+  closeButtonBackground: '#EEEEEEC0'
 };

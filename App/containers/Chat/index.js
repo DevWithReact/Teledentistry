@@ -21,157 +21,264 @@ import {
   Composer,
   InputToolbar
 } from 'react-native-gifted-chat'
+import Spinner from 'react-native-loading-spinner-overlay';
 import { scale } from '../../utils/scale';
 import ActionButton from '../../components/ActionButton';
 import Colors from '../../utils/Colors';
+import ImagePicker from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import PickerModal from '../../components/PickerModal';
+import 'react-native-get-random-values'
+import { v4 as uuidv4 } from 'uuid';
+import storage from '@react-native-firebase/storage';
+import { utils } from '@react-native-firebase/app';
+import { getFileExt } from '../../utils/commonUtil';
+import * as Progress from 'react-native-progress';
+import { getDeviceWidth } from '../../utils/extension';
+import { createThumbnail } from "react-native-create-thumbnail";
 
 const ChatScreen = ({ route, navigation }) => {
-    const { user, userProfile } = React.useContext(AuthContext);
-    const { channel }  = route.params;
-    console.log(channel, userProfile)
-    const [messages, setMessages] = React.useState([]);    
-    React.useEffect(() => {
-        const subscriber = firestore()
-            .collection('channels')
-            .doc(channel.id)
-            .collection('chats')
-            .orderBy('createdAt', 'desc')
-            .onSnapshot(snapshot => {
-                console.log("change", snapshot)
-                const result = snapshot.docs.map(doc => ({
-                    _id: doc.data()._id,
-                    createdAt: doc.data().createdAt.toDate(),
-                    text: doc.data().text,
-                    user: doc.data().user,
-                    sent: doc.data().sent,
-                    emoticon: doc.data().emoticon
-                }));
-                setMessages(result);
-            })
-        return () => subscriber();
-    }, [])
+  const { channel }  = route.params;
+  const { user, userProfile } = React.useContext(AuthContext);
+  const [messages, setMessages] = React.useState([]);
+  const [mediaType, setMediaType] = React.useState("");
+  const [imagePickerModal, setImagePickerModal] = React.useState(false);
+  const [uploading, setUploading] = React.useState(false);
+  const [uploadingProgress, setUploadingProgress] = React.useState(0);
 
-    const onSend = React.useCallback((messages = []) => {
-        console.log(messages);
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-        const { _id, createdAt, text, user } = messages[0];
-        firestore()
-            .collection('channels')
-            .doc(channel.id)
-            .collection('chats')
-            .add({
-                _id,
-                createdAt,
-                text,
-                user,
-                sent: true,
-            })
-            .then(() => {
-                console.log('chat added!');
-            });   
-    }, [])
 
-    
+  React.useEffect(() => {
+    const subscriber = firestore()
+      .collection('channels')
+      .doc(channel.id)
+      .collection('chats')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {
+        const result = snapshot.docs.map(doc => ({
+          _id: doc.data()._id,
+          createdAt: doc.data().createdAt.toDate(),
+          text: doc.data().text,
+          image: doc.data().image,
+          video: doc.data().video,
+          audio: doc.data().audio,
+          user: doc.data().user,
+          sent: doc.data().sent,
+          emoticon: doc.data().emoticon
+        }));
+        setMessages(result);
+      })
+    return () => subscriber();
+  }, [])
 
-    const renderMessage = (props) => {
-        const {
-            currentMessage: { text: currText },
-        } = props
+  const sendMessage = (message) => {    
+    setMessages(previousMessages => GiftedChat.append(previousMessages, message))
+    firestore()
+      .collection('channels')
+      .doc(channel.id)
+      .collection('chats')
+      .add({
+          ...message,
+          sent: true,
+      })
+      .then(() => {
+          console.log('chat added!');
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+  const onSend = React.useCallback((messages = []) => {
+    sendMessage(messages[0]);
+  }, [])
 
-        let messageTextStyle
+  const renderMessage = (props) => {
+      const {
+          currentMessage: { text: currText },
+      } = props
 
-        // Make "pure emoji" messages much bigger than plain text.
-        if (currText && emojiUtils.isPureEmojiString(currText)) {
-            messageTextStyle = {
-                fontSize: 28,
-                // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
-                lineHeight: Platform.OS === 'android' ? 34 : 30,
-            }
-        }
+      let messageTextStyle
 
-        return <CustomMessage {...props} messageTextStyle={messageTextStyle} />
+      // Make "pure emoji" messages much bigger than plain text.
+      if (currText && emojiUtils.isPureEmojiString(currText)) {
+          messageTextStyle = {
+              fontSize: 28,
+              // Emoji get clipped if lineHeight isn't increased; make it consistent across platforms.
+              lineHeight: Platform.OS === 'android' ? 34 : 30,
+          }
+      }
+
+      return <CustomMessage {...props} messageTextStyle={messageTextStyle} />
+  }
+
+  const uploadFile = async (path, type, success = () => {}) => {    
+    const ext = getFileExt(path);
+    const refPath = `${type}/${channel.id}/${uuidv4()}.${ext}`;
+    const reference = storage().ref(refPath);
+    console.log("Uploading...");
+    setUploading(true);
+    setUploadingProgress(0);
+    try {
+      const task = reference.putFile(path);
+      task.on('state_changed', taskSnapshot => {
+        const currentBytes = taskSnapshot.bytesTransferred;
+        const totalBytes = taskSnapshot.totalBytes;
+        setUploadingProgress(currentBytes/totalBytes);
+      });
+      task.then(async () => {
+        const ref = storage().ref(refPath);
+        const url = await ref.getDownloadURL(refPath);
+        console.log("Uploading completed!", url);
+        setUploading(false);
+        success(url);
+      })
+    } catch (e) {
+      console.error("Uploading File to firebase", e);
     }
+  }
 
+  const openCamera = async (openType) => {
+    const options = {
+      mediaType: mediaType
+    };
+    const result = openType == "library" ? await launchImageLibrary(options) : await launchCamera(options);
+    if (!result || result.didCancel)
+      return;
+    const image = result.assets[0];
 
+    uploadFile(image.uri, "files", async (url) => {
+      if (mediaType === 'video') {
+        const thumbResp = await createThumbnail({
+          url: image.uri,
+          timeStamp: 10000,
+          format: "png"
+        })
+        uploadFile(thumbResp.path, "files", async (thumbUrl) => {
+          const message = {
+            _id: uuidv4(),
+            user: userProfile,
+            text: "",
+            video: url,
+            image: thumbUrl,
+            createdAt: new Date(),
+          };
+          sendMessage(message);
+        });
+      } else {
+        const message = {
+          _id: uuidv4(),
+          user: userProfile,
+          text: "",
+          image: url,
+          createdAt: new Date(),
+        };
+        sendMessage(message);
+      }
+    });
+  };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.appBar}>
-                <View style={styles.left_actions}>
-                    <IconButton
-                        icon={Images.ic_chevron_left}
-                        width={12}
-                        height={21}
-                        onPress={() => {
-                            navigation.pop();
-                        }}
-                    />
-                </View>
-                <Text style={[ApplicationStyles.darkLabel, styles.appbarText]}>
-                    Dr. Patricia Speidel
-                </Text>
-                <View style={styles.end_actions}>                    
-                    <IconButton
-                        icon={Images.ic_webcam}
-                        width={24}
-                        height={24}
-                        onPress={() => {}}
-                    />
-                    <View style={styles.space}/>
-                    <IconButton
-                        icon={Images.ic_export}
-                        width={20}
-                        height={20}
-                        onPress={() => {}}
-                    />
-                    <View style={styles.space}/>
-                    <IconButton
-                        icon={Images.ic_options_vertical}
-                        width={20}
-                        height={20}
-                        onPress={() => {}}
-                    />
-                </View>
-            </View>
-           <GiftedChat
-                messages={messages}
-                onSend={messages => onSend(messages)}
-                user={userProfile}
-                isTyping={true}
-                renderMessage={renderMessage}
-                renderInputToolbar={(props) => (
-                  <InputToolbar
-                    {...props}
-                    containerStyle={styles.inputToolbar}
-                  />
-                )}
-                renderActions={(props) => (
-                  <View style={styles.actionStyles}
-                  >
-                    <ActionButton
-                      icon={Images.ic_camera}
-                      onPress={() => {}}
-                    />
-                  </View>
-                )}
-                renderComposer={(props) => (
-                  <View style={styles.composerStyle}>
-                    <Composer
-                      {...props}
-                      textInputStyle={styles.composerInput}
-                    />
-                    <Send
-                      {...props}
-                      containerStyle={styles.sendStyle}
-                    >
-                      <Text style={[ApplicationStyles.primaryLabel, {fontSize: scale(14)}]}>Send</Text>
-                    </Send>
-                  </View>
-                )}
-                renderSend={(props) => null}
-           />
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.appBar}>
+        <View style={styles.left_actions}>
+          <IconButton
+              icon={Images.ic_chevron_left}
+              width={12}
+              height={21}
+              onPress={() => {
+                  navigation.pop();
+              }}
+          />
+        </View>
+        <Text style={[ApplicationStyles.darkLabel, styles.appbarText]}>
+            Dr. Patricia Speidel
+        </Text>
+        <View style={styles.end_actions}>                    
+          <IconButton
+            icon={Images.ic_webcam}
+            width={24}
+            height={24}
+            onPress={() => { 
+              setMediaType("video");
+              setImagePickerModal(true);
+            }}
+          />
+          <View style={styles.space}/>
+          <IconButton
+            icon={Images.ic_export}
+            width={20}
+            height={20}
+            onPress={() => {}}
+          />
+          <View style={styles.space}/>
+          <IconButton
+            icon={Images.ic_options_vertical}
+            width={20}
+            height={20}
+            onPress={() => {}}
+          />
+        </View>
+      </View>
+      {uploading && (
+        <Progress.Bar
+          progress={uploadingProgress}
+          width={getDeviceWidth()}
+          borderRadius={0}
+          color={Colors.primaryColor}
+        />
+      )}
+      <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={userProfile}
+        isTyping={true}
+        renderMessage={renderMessage}
+        renderInputToolbar={(props) => (
+          <InputToolbar
+            {...props}
+            containerStyle={styles.inputToolbar}
+          />
+        )}
+        renderActions={(props) => (
+          <View style={styles.actionStyles}
+          >
+            <ActionButton
+              icon={Images.ic_camera}
+              onPress={() => {                
+                setMediaType("image");
+                setImagePickerModal(true);
+              }}
+            />
+          </View>
+        )}
+        renderComposer={(props) => (
+          <View style={styles.composerStyle}>
+            <Composer
+              {...props}
+              textInputStyle={styles.composerInput}
+            />
+            <Send
+              {...props}
+              containerStyle={styles.sendStyle}
+            >
+              <Text style={[ApplicationStyles.primaryLabel, {fontSize: scale(14)}]}>Send</Text>
+            </Send>
+          </View>
+        )}
+        renderSend={(props) => null}
+      />
+      <PickerModal
+        visible={imagePickerModal}
+        type={mediaType}
+        onHide={() => {
+          setImagePickerModal(false);
+        }}
+        onSelect={(type) => {
+          setImagePickerModal(false);
+          openCamera(type);
+        }}
+      />
+    </SafeAreaView>
+  );
 };
 
 export default ChatScreen;

@@ -36,13 +36,11 @@ export default class Message extends React.Component {
             backgroundColor: '#FFFFFF',
             borderRadius: scale(20),
             paddingHorizontal: scale(19),
-            paddingVertical: scale(10)
           },
           right: {
             backgroundColor: '#D2D9EE',
             borderRadius: scale(20),
             paddingHorizontal: scale(19),
-            paddingVertical: scale(10)
           }
         }}
         renderTime={() => null}
@@ -80,15 +78,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 3,
-  },
-  eye: {
-    width: scale(15),
-    height: scale(9),
-    marginRight: scale(11)
-  },
-  options: {
-    width: scale(20),
-    height: scale(20),
   }
 })
 

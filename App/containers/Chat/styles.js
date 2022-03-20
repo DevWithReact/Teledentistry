@@ -9,6 +9,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.white
   },
+  spinnerTextStyle: {
+    color: Colors.white
+  },
   appBar: {
     width: '100%',
     height: scale(56),

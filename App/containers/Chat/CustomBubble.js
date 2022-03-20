@@ -23,6 +23,7 @@ import Images from '../../utils/Images';
 import IconButton from '../../components/IconButton'
 import {scale} from '../../utils/scale';
 import Fonts from '../../utils/Fonts';
+import CustomMessageImage from './CustomMessageImage';
 
 const { isSameUser, isSameDay } = utils
 
@@ -97,11 +98,22 @@ export default class Bubble extends React.Component {
         return this.props.renderMessageImage(messageImageProps)
       }
       return (
-        <MessageImage
+        <CustomMessageImage
           {...messageImageProps}
           imageStyle={[styles.slackImage, messageImageProps.imageStyle]}
         />
       )
+    } else if (this.props.currentMessage.video) {      
+      const { containerStyle, wrapperStyle, ...messageImageProps } = this.props
+      return (
+        <CustomMessageImage
+          {...messageImageProps}
+          currentMessage={{
+            image: this.props.currentMessage.video
+          }}
+          imageStyle={[styles.slackImage, messageImageProps.imageStyle]}
+        />
+      );
     }
     return null
   }
@@ -249,6 +261,7 @@ export default class Bubble extends React.Component {
       };
     if (!this.props.previousMessage._id) {
       containerStyle.marginTop = scale(15);
+    } else {
     }
     return (
       <View style={[styles.container, this.props.containerStyle, containerStyle]}>        
@@ -311,7 +324,8 @@ const styles = StyleSheet.create({
   wrapper: {
     minHeight: 20,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(63, 95, 194, 0.2)'
+    backgroundColor: 'rgba(63, 95, 194, 0.2)',    
+    paddingVertical: scale(4)
   },
   username: {
     fontWeight: 'bold',
