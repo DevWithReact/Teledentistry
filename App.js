@@ -31,8 +31,7 @@ import { AuthProvider } from './App/AuthProvider';
 
 import { LogBox } from "react-native";
 
-LogBox.ignoreLogs(["EventEmitter.removeListener"]);
-LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+LogBox.ignoreLogs(["EventEmitter.removeListener", 'Animated.event']);
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';

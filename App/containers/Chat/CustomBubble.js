@@ -10,7 +10,8 @@ import {
   View,
   ViewPropTypes,
   Platform,
-  Image
+  Image,
+  Alert
 } from 'react-native'
 
 import {
@@ -19,11 +20,14 @@ import {
   Time,
   utils,
 } from 'react-native-gifted-chat'
+import Icon from 'react-native-vector-icons/AntDesign';
+import RNFetchBlob from 'rn-fetch-blob'
 import Images from '../../utils/Images';
 import IconButton from '../../components/IconButton'
 import {scale} from '../../utils/scale';
 import Fonts from '../../utils/Fonts';
 import CustomMessageImage from './CustomMessageImage';
+import Colors from '../../utils/Colors';
 
 const { isSameUser, isSameDay } = utils
 
@@ -91,8 +95,38 @@ export default class Bubble extends React.Component {
     return null
   }
 
+  downloadFile () {    
+    const file = this.props.currentMessage.file;
+    const { dirs } = RNFetchBlob.fs;
+    const donwloadDir = dirs.DownloadDir + "/" + file.name;
+    RNFetchBlob.config({
+      fileCache: true,
+      path: donwloadDir,          
+      addAndroidDownloads: {
+        useDownloadManager: true,
+        notification: true,
+        mediaScannable: true,
+        title: file.name,
+        mime: file.type,
+        path: donwloadDir,
+      },
+    }).fetch(
+        'GET',
+        file.url
+    ).then(res => {
+        setTimeout(() => {
+          if (Platform.OS == 'android')
+            Alert.alert("File successfully downloaded to", res.path());
+          else            
+            RNFetchBlob.ios.openDocument(res.data);
+        });
+    }).catch(e => {
+        console.error("Download Failed", e);
+    });
+  }
+
   renderMessageImage() {
-    if (this.props.currentMessage.image) {
+    if (this.props.currentMessage.image || this.props.currentMessage.video) {
       const { containerStyle, wrapperStyle, ...messageImageProps } = this.props
       if (this.props.renderMessageImage) {
         return this.props.renderMessageImage(messageImageProps)
@@ -103,16 +137,22 @@ export default class Bubble extends React.Component {
           imageStyle={[styles.slackImage, messageImageProps.imageStyle]}
         />
       )
-    } else if (this.props.currentMessage.video) {      
-      const { containerStyle, wrapperStyle, ...messageImageProps } = this.props
+    } else if (this.props.currentMessage.file) {
       return (
-        <CustomMessageImage
-          {...messageImageProps}
-          currentMessage={{
-            image: this.props.currentMessage.video
+        <TouchableOpacity
+          onPress={() => {
+            this.downloadFile();
           }}
-          imageStyle={[styles.slackImage, messageImageProps.imageStyle]}
-        />
+        >
+          <View style={styles.downloadWrapper}>
+            <Text style={styles.downloadText}>Download</Text>
+            <Icon
+              name="download"
+              size={15}
+            />
+          </View>
+          <Text style={styles.downloadFileName} numberOfLines={1}>{this.props.currentMessage.file.name}</Text>
+        </TouchableOpacity>
       );
     }
     return null
@@ -362,6 +402,26 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
   },
+  downloadWrapper: {
+    borderBottomColor: Colors.greyColor,
+    borderBottomWidth: 1,
+    paddingTop: scale(5),
+    paddingBottom: scale(8),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: scale(5),
+  },
+  downloadText: {
+    color: '#636C69',
+    fontFamily: Fonts.EpilogueBold,
+    fontWeight: '700',
+    fontSize: scale(15),
+    marginRight: scale(4)
+  },
+  downloadFileName: {
+    maxWidth: scale(150),
+  }
 })
 
 Bubble.contextTypes = {

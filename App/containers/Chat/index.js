@@ -36,6 +36,12 @@ import { getFileExt } from '../../utils/commonUtil';
 import * as Progress from 'react-native-progress';
 import { getDeviceWidth } from '../../utils/extension';
 import { createThumbnail } from "react-native-create-thumbnail";
+import DocumentPicker, {
+  DirectoryPickerResponse,
+  DocumentPickerResponse,
+  isInProgress,
+  types,
+} from 'react-native-document-picker'
 
 const ChatScreen = ({ route, navigation }) => {
   const { channel }  = route.params;
@@ -61,6 +67,7 @@ const ChatScreen = ({ route, navigation }) => {
           image: doc.data().image,
           video: doc.data().video,
           audio: doc.data().audio,
+          file: doc.data().file,
           user: doc.data().user,
           sent: doc.data().sent,
           emoticon: doc.data().emoticon
@@ -176,6 +183,34 @@ const ChatScreen = ({ route, navigation }) => {
     });
   };
 
+  const openFilePicker = async () => {
+    try {
+      const pickerResult = await DocumentPicker.pickSingle({
+        presentationStyle: 'fullScreen',
+        copyTo: 'cachesDirectory',
+      })
+      console.log(pickerResult);
+      const {fileCopyUri: path, name, size, type} = pickerResult;
+      uploadFile(path, "files", async (url) => {        
+        const message = {
+          _id: uuidv4(),
+          user: userProfile,
+          text: "",
+          file: {
+            url,
+            name,
+            size,
+            type
+          },
+          createdAt: new Date(),
+        };
+        sendMessage(message);
+      });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.appBar}>
@@ -207,7 +242,9 @@ const ChatScreen = ({ route, navigation }) => {
             icon={Images.ic_export}
             width={20}
             height={20}
-            onPress={() => {}}
+            onPress={() => {
+              openFilePicker();
+            }}
           />
           <View style={styles.space}/>
           <IconButton
