@@ -90,5 +90,13 @@ export const styles = StyleSheet.create({
     height: scale(23),
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  menuOption: {
+    fontFamily: Fonts.Epilogue,
+    fontSize: textScale(14),
+    fontWeight: '400',
+    color: Colors.textColor,
+    paddingHorizontal: scale(6),
+    paddingVertical: scale(6),
   }
 });

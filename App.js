@@ -27,6 +27,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import MainNavigator from './App/navigators/MainNavigator';
+import { MenuProvider } from 'react-native-popup-menu';
 import { AuthProvider } from './App/AuthProvider';
 
 import { LogBox } from "react-native";
@@ -40,9 +41,11 @@ const App: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   return (
-    <AuthProvider>
-      <MainNavigator/>
-    </AuthProvider>
+    <MenuProvider>
+      <AuthProvider>
+        <MainNavigator/>
+      </AuthProvider>
+    </MenuProvider>
   )
 };
 

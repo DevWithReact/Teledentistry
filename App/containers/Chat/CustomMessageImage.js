@@ -110,7 +110,7 @@ CustomMessageImage.defaultProps = {
 CustomMessageImage.propTypes = {
     currentMessage: PropTypes.object,
     containerStyle: PropTypes.object,
-    imageStyle: PropTypes.object,
+    imageStyle: PropTypes.any,
     imageProps: PropTypes.object,
     lightboxProps: PropTypes.object,
 };

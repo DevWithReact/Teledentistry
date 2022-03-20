@@ -42,6 +42,12 @@ import DocumentPicker, {
   isInProgress,
   types,
 } from 'react-native-document-picker'
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
 const ChatScreen = ({ route, navigation }) => {
   const { channel }  = route.params;
@@ -62,6 +68,7 @@ const ChatScreen = ({ route, navigation }) => {
       .onSnapshot(snapshot => {
         const result = snapshot.docs.map(doc => ({
           _id: doc.data()._id,
+          firebaseId: doc.id,
           createdAt: doc.data().createdAt.toDate(),
           text: doc.data().text,
           image: doc.data().image,
@@ -114,7 +121,7 @@ const ChatScreen = ({ route, navigation }) => {
           }
       }
 
-      return <CustomMessage {...props} messageTextStyle={messageTextStyle} />
+      return <CustomMessage {...props} channel={channel} messageTextStyle={messageTextStyle} />
   }
 
   const uploadFile = async (path, type, success = () => {}) => {    
@@ -211,6 +218,24 @@ const ChatScreen = ({ route, navigation }) => {
     }
   }
 
+  const archiveChat = () => {
+    firestore()
+      .collection('channels')
+      .doc(channel.id)
+      .set({          
+          active: false,
+          archivedAt: new Date()
+      }, {
+        merge: true
+      })
+      .then(() => {
+          console.log('Archive successfully!');
+      })
+      .catch((e) => {
+        console.error(e);
+      });    
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.appBar}>
@@ -247,12 +272,24 @@ const ChatScreen = ({ route, navigation }) => {
             }}
           />
           <View style={styles.space}/>
-          <IconButton
-            icon={Images.ic_options_vertical}
-            width={20}
-            height={20}
-            onPress={() => {}}
-          />
+          <Menu>
+            <MenuTrigger>
+              <Image
+                source={Images.ic_options_vertical}
+                width={20}
+                height={20}
+              />
+            </MenuTrigger>
+            <MenuOptions>
+              <MenuOption
+                onSelect={() => {
+                  archiveChat();
+                }}
+              >
+                <Text style={styles.menuOption}>Archive</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
         </View>
       </View>
       {uploading && (

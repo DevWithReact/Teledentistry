@@ -28,12 +28,17 @@ import {scale} from '../../utils/scale';
 import Fonts from '../../utils/Fonts';
 import CustomMessageImage from './CustomMessageImage';
 import Colors from '../../utils/Colors';
+import Popover from 'react-native-popover-view';
+import { addMessageEmoticon } from '../../services/FirebaseService';
 
 const { isSameUser, isSameDay } = utils
 
 export default class Bubble extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      showPopover: false
+    }
     this.onLongPress = this.onLongPress.bind(this)
   }
 
@@ -255,15 +260,42 @@ export default class Bubble extends React.Component {
   }
   renderOption() {
     return (
-      <View>
-        <IconButton
-          icon={Images.ic_options_vertical_inactive}
-          width={20}
-          height={20}
-          onPress={() => {
-
-          }}
-        />
+      <View>        
+        <Popover
+          from={(
+            <TouchableOpacity            
+              onPress={() => {
+                this.setState({ showPopover: true });
+              }}
+            >
+              <Image
+                source={Images.ic_options_vertical_inactive}
+                width={20}
+                height={20}
+              />
+            </TouchableOpacity>
+          )}
+          backgroundStyle={{backgroundColor: Colors.transparent}}
+          popoverStyle={{backgroundColor: Colors.grayMedium}}
+          isVisible={this.state.showPopover}
+          onRequestClose={() => this.setState({ showPopover: false })}
+        >
+            <View style={styles.emoticonsWrapper}>
+              <IconButton
+                icon={Images.ic_react_smile}
+                width={30}
+                height={30}
+                onPress={() => {
+                  addMessageEmoticon(
+                    this.props.channel.id,
+                    this.props.currentMessage.firebaseId,
+                    'happy'
+                  );
+                  this.setState({ showPopover: false });
+                }}
+              />
+            </View>
+        </Popover>
       </View>
     )
   }
@@ -354,6 +386,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: scale(-10),
     top: scale(-10)
+  },
+  emoticonsWrapper: {
+    paddingHorizontal: scale(10),
+    paddingVertical: scale(5)
   },
   container: {
     flex: 1,

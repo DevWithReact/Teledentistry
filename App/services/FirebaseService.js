@@ -15,3 +15,15 @@ export function getUserProfile(id) {
     });
 }
 
+export function addMessageEmoticon(channelId, id, emoticon) {
+  return firestore()
+    .collection('channels')
+    .doc(channelId)
+    .collection('chats')
+    .doc(id)
+    .set({
+      emoticon
+    }, {
+      merge: true
+    })
+}
