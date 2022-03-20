@@ -249,6 +249,8 @@ export default class Bubble extends React.Component {
   }
 
   renderEye() {
+    if (this.props.position === "left")
+      return null;
     return (
       <View>
         <Image
@@ -259,6 +261,8 @@ export default class Bubble extends React.Component {
     )
   }
   renderOption() {
+    if (this.props.position === "right")
+      return null;
     return (
       <View>        
         <Popover
@@ -396,6 +400,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    paddingHorizontal: scale(17)
   },
   wrapper: {
     minHeight: 20,

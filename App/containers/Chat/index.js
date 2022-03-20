@@ -58,6 +58,7 @@ const ChatScreen = ({ route, navigation }) => {
   const [uploading, setUploading] = React.useState(false);
   const [uploadingProgress, setUploadingProgress] = React.useState(0);
 
+  const chatTitle = channel.other.type === "dentist" ? "Dr. " + channel.other.name : channel.other.name;
 
   React.useEffect(() => {
     const subscriber = firestore()
@@ -99,6 +100,13 @@ const ChatScreen = ({ route, navigation }) => {
       })
       .catch((e) => {
         console.error(e);
+      });
+    firestore()
+      .collection('channels')
+      .doc(channel.id)
+      .set({
+        ...channel,
+        lastMsg: message
       });
   }
   const onSend = React.useCallback((messages = []) => {
@@ -250,7 +258,7 @@ const ChatScreen = ({ route, navigation }) => {
           />
         </View>
         <Text style={[ApplicationStyles.darkLabel, styles.appbarText]}>
-            Dr. Patricia Speidel
+          {chatTitle}
         </Text>
         <View style={styles.end_actions}>                    
           <IconButton

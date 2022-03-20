@@ -27,3 +27,14 @@ export function addMessageEmoticon(channelId, id, emoticon) {
       merge: true
     })
 }
+
+export function setUserOnline(id, online) {
+  return firestore()
+    .collection('users')
+    .doc(id)
+    .set({
+      online: online
+    }, {
+      merge: true
+    });
+}

@@ -11,7 +11,17 @@ import Images from '../../utils/Images';
 import Avatar from '../Avatar';
 import { convertChatTime } from '../../utils/commonUtil';
 
-const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {    
+const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {
+    let lastMsg = "";
+    if (message.file) {
+        lastMsg = `File sent [${message.file.name}]`;
+    } else if (message.video) {
+        lastMsg = "Video sent";
+    } else if (message.image) {
+        lastMsg = "Image sent";
+    } else {
+        lastMsg = message.text;
+    }
     return (
         <TouchableOpacity
             style={styles.container}
@@ -25,7 +35,7 @@ const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {
             />
             <View style={styles.sectionMiddle}>
                 <Text style={styles.textHeading}>{title}</Text>
-                <Text style={styles.textDesc}>{message}</Text>
+                <Text style={styles.textDesc}>{lastMsg}</Text>
                 <Text style={styles.textDesc}>{convertChatTime(time)}</Text>
             </View>
             <Image
@@ -39,7 +49,7 @@ const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {
 ChannelCard.propTypes = {
     avatar: PropTypes.any,
     title: PropTypes.string,
-    message: PropTypes.string,
+    message: PropTypes.object,
     time: PropTypes.object,
     active: PropTypes.bool,
     onPress: PropTypes.func,

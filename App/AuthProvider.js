@@ -1,7 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
+import {
+  AppState
+} from 'react-native';
+import { setUserOnline } from './services/FirebaseService';
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -15,6 +18,7 @@ export const AuthProvider = ({ children }) => {
       async authenticatedUser => {
         authenticatedUser ? setUser(authenticatedUser) : setUser(null);
         if (authenticatedUser) {
+          await setUserOnline(authenticatedUser.uid, AppState.currentState === "active");
           firestore()
             .collection('users')
             .doc(authenticatedUser.uid)
@@ -29,9 +33,21 @@ export const AuthProvider = ({ children }) => {
         }
       }
     );
+    
+    const subscription = AppState.addEventListener("change", nextAppState => {
+      if (!user)
+        return;
+      let online = true;
+      if (nextAppState === "background")
+        online = false;
+      setUserOnline(user.uid, online);
+    });
 
     // unsubscribe auth listener on unmount
-    return unsubscribeAuth;
+    return () => {
+      subscription.remove();
+      unsubscribeAuth();
+    };
   }, [user]);
 
   return (
