@@ -13,6 +13,7 @@ import Sound from 'react-native-sound';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getAudioTimeString } from '../../utils/commonUtil';
 import { styles } from './styles';
+import Colors from '../../utils/Colors';
 
 const AudioPlayer = ({url, }) => {
   const [playState, setPlayState] = useState('paused'); //playing, paused
