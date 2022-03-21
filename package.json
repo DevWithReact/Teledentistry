@@ -27,6 +27,7 @@
     "react-native-get-random-values": "^1.7.2",
     "react-native-gifted-chat": "^0.16.3",
     "react-native-image-picker": "^4.7.3",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-loading-spinner-overlay": "^3.0.0",
     "react-native-modal": "^13.0.1",
     "react-native-popover-view": "^4.1.0",

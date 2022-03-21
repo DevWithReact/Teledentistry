@@ -5,6 +5,7 @@ import {
     View,
     Text
   } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { AuthContext } from '../../AuthProvider';
 import AuthInput from '../../components/AuthInput';
 import LinkButton from '../../components/LinkButton';
@@ -17,7 +18,8 @@ const SignInScreen = ({ navigation }) => {
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     return (
-        <SafeAreaView style={styles.container}>
+        <KeyboardAwareScrollView style={{flex: 1}}>
+            <View style={styles.container}>
             <Image            
                 source={Images.ic_logo}
                 style={styles.logo}
@@ -69,7 +71,8 @@ const SignInScreen = ({ navigation }) => {
                     }}
                 />
             </View>
-        </SafeAreaView>
+            </View>
+        </KeyboardAwareScrollView>
     );
 };
 

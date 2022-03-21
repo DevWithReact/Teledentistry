@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     minHeight: 20,
     justifyContent: 'flex-end',
     backgroundColor: 'rgba(63, 95, 194, 0.2)',    
-    paddingVertical: scale(4)
+    paddingVertical: scale(2)
   },
   username: {
     fontWeight: 'bold',

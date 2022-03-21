@@ -84,6 +84,7 @@ export const AuthProvider = ({ children }) => {
         },
         logout: async () => {
           try {
+            await setUserOnline(user.uid, false);
             await auth().signOut();
           } catch (e) {
             console.error(e);
