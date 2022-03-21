@@ -410,6 +410,9 @@ const ChatScreen = ({ route, navigation }) => {
             <Composer
               {...props}
               textInputStyle={styles.composerInput}
+              textInputProps={{
+                numberOfLines: 3
+              }}
               onTextChanged={onTextChanged}
               text={userInput}
             />

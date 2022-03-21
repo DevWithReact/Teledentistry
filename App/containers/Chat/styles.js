@@ -109,9 +109,9 @@ export const styles = StyleSheet.create({
     paddingVertical: scale(6),
   },
   typing: {
-    height: 45
+    height: scale(45)
   },
   footer: {    
-    height: 45
+    height: scale(15)
   }
 });

@@ -18,7 +18,7 @@ const SignInScreen = ({ navigation }) => {
     const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
     return (
-        <KeyboardAwareScrollView style={{flex: 1}}>
+        <KeyboardAwareScrollView style={{flex: 1, bakcground: 'red'}}>
             <View style={styles.container}>
             <Image            
                 source={Images.ic_logo}
