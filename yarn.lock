@@ -6099,6 +6099,10 @@ react-native-video@^5.2.0:
     prop-types "^15.7.2"
     shaka-player "^2.5.9"
 
+"react-native-voice-recorder@git+https://github.com/TrustDev/react-native-voice-recorder.git":
+  version "1.0.3"
+  resolved "git+https://github.com/TrustDev/react-native-voice-recorder.git#30c0bf3ce5ec2dd914a2ec49b311a46e923d8936"
+
 react-native@0.67.3:
   version "0.67.3"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.67.3.tgz#ee8bafb644afbe511a4a2c8e9c144a9720d06dd8"

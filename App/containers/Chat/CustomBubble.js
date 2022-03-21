@@ -251,6 +251,10 @@ export default class Bubble extends React.Component {
   renderEye() {
     if (this.props.position === "left")
       return null;
+    const { channel, currentMessage } = this.props;
+    const lastSeenId = channel[`lastSeen_${channel.other._id}`];
+    if (lastSeenId != currentMessage._id)
+      return null;
     return (
       <View>
         <Image

@@ -74,7 +74,13 @@ export const AuthProvider = ({ children }) => {
               console.error(e);
             }
             setLoading(false);
-           }
+          } else {
+            Toast.show({
+              type: 'error',
+              text1: 'Sorry',
+              text2: 'Please enter user email and password.'
+            });
+          }
         },
         register: async (displayName, email, password) => {
           setLoading(true);

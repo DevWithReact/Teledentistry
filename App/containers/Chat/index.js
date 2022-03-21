@@ -36,12 +36,8 @@ import { getFileExt } from '../../utils/commonUtil';
 import * as Progress from 'react-native-progress';
 import { getDeviceWidth } from '../../utils/extension';
 import { createThumbnail } from "react-native-create-thumbnail";
-import DocumentPicker, {
-  DirectoryPickerResponse,
-  DocumentPickerResponse,
-  isInProgress,
-  types,
-} from 'react-native-document-picker'
+import DocumentPicker from 'react-native-document-picker';
+import { RNVoiceRecorder } from 'react-native-voice-recorder';
 import {
   Menu,
   MenuOptions,
@@ -284,6 +280,28 @@ const ChatScreen = ({ route, navigation }) => {
     typingTimer.current = setTimeout(() => {
       setTyping(false);
     }, 10000)
+  }
+
+  const onSoundRecord = () => {    
+    RNVoiceRecorder.Record({
+      format: 'wav',
+      onDone: path => {
+        console.log("Sound recorded", path);
+        uploadFile(path, "files", async (url) => {        
+          const message = {
+            _id: uuidv4(),
+            user: userProfile,
+            text: "",
+            audio: url,
+            createdAt: new Date(),
+          };
+          sendMessage(message);
+        });
+      },
+      onCancel: () => {
+        console.log('Record audio cancel');
+      },
+    });
   }
 
   return (
