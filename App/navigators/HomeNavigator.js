@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  View,
   Image,
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
