@@ -332,6 +332,7 @@ const ChatScreen = ({ route, navigation }) => {
                   onSoundRecord();
                 }}
               />
+              <View style={styles.space}/>
               <IconButton
                 icon={Images.ic_webcam}
                 width={24}
