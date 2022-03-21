@@ -317,7 +317,7 @@ const ChatScreen = ({ route, navigation }) => {
               }}
           />
         </View>
-        <Text style={[ApplicationStyles.darkLabel, styles.appbarText]}>
+        <Text numberOfLines={1} style={[ApplicationStyles.darkLabel, styles.appbarText]}>
           {chatTitle}
         </Text>
         <View style={styles.end_actions}>                    

@@ -76,7 +76,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
       <ChannelCard
         currentUser={userProfile}
         avatar={item["other"].avatar}
-        title={item["other"].name}
+        title={item.other.type === "dentist" ? "Dr. " + item.other.name : item.other.name}
         message={item.lastMsg}
         lastSeen={item[`lastSeen_${userProfile._id}`]}
         time={new Date()}

@@ -30,6 +30,7 @@ import CustomMessageImage from './CustomMessageImage';
 import Colors from '../../utils/Colors';
 import Popover from 'react-native-popover-view';
 import { addMessageEmoticon } from '../../services/FirebaseService';
+import AudioPlayer from '../../components/AudioPlayer';
 
 const { isSameUser, isSameDay } = utils
 
@@ -241,6 +242,19 @@ export default class Bubble extends React.Component {
     return null
   }
 
+  renderAudio() {
+    if (this.props.currentMessage.audio) {
+      const { containerStyle, wrapperStyle, ...messageAudioProps } = this.props
+      return (
+        <View style={styles.audioWrapper}>
+          <AudioPlayer
+            {...messageAudioProps}
+            url={this.props.currentMessage.audio}
+          />
+        </View>
+      )
+    }    
+  }
   renderCustomView() {
     if (this.props.renderCustomView) {
       return this.props.renderCustomView(this.props)
@@ -356,6 +370,7 @@ export default class Bubble extends React.Component {
             <View>
               {this.renderCustomView()}
               {this.renderMessageImage()}
+              {this.renderAudio()}
               {this.renderMessageText()}
             </View>
           </View>
@@ -409,7 +424,7 @@ const styles = StyleSheet.create({
   wrapper: {
     minHeight: 20,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(63, 95, 194, 0.2)',    
+    backgroundColor: Colors.bubbleBackground,    
     paddingVertical: scale(2)
   },
   username: {
@@ -466,6 +481,9 @@ const styles = StyleSheet.create({
   },
   downloadFileName: {
     maxWidth: scale(150),
+  },
+  audioWrapper: {
+    width: scale(250),
   }
 })
 

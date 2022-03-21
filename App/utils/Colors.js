@@ -26,5 +26,6 @@ export default {
   playButtonBackground: '#EEEEEE',
 
   actionButtonBackground: '#EEEEEE80',
-  closeButtonBackground: '#EEEEEEC0'
+  closeButtonBackground: '#EEEEEEC0',
+  bubbleBackground: 'rgba(63, 95, 194, 0.2)'
 };

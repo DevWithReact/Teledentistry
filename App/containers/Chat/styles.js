@@ -37,10 +37,10 @@ export const styles = StyleSheet.create({
   },
   end_actions: {    
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   space: {
-    width: scale(20)
+    width: scale(15)
   },
   appbarText: {
     flex: 1,
