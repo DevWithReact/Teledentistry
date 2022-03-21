@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [chatBadge, setChatBadge] = useState(false);
 
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
@@ -65,6 +66,8 @@ export const AuthProvider = ({ children }) => {
         user,
         userProfile,
         loading,
+        chatBadge,
+        setChatBadge,
         login: async (email, password) => {
           if (email !== '' && password !== '') {
             setLoading(true);

@@ -19,7 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import { getUserProfile } from '../../services/FirebaseService';
 
 const ChannelScreen = ({ navigation, parentNavigation }) => {
-    const {user, userProfile}  = React.useContext(AuthContext);    
+    const {user, userProfile, setChatBadge}  = React.useContext(AuthContext);    
     const [activeChannels, setActiveChannels] = React.useState([]);
     const [archivedChannels, setArchivedChannels] = React.useState([]);
 
@@ -37,6 +37,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                 const resultActiveChannels = [];
                 const resultArchivedChannels = [];
                 const channels = [];
+                let unreadMessageCount = 0;
                 snapshot.forEach(async documentSnapshot => {
                     console.log('Channel ID: ', documentSnapshot.id, documentSnapshot.data());
                     var channel = documentSnapshot.data();
@@ -57,13 +58,18 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                         channel["other"] = consumer;
                     else
                         channel["other"] = dentist;
-                    if (channel.active)
+                    if (channel.active) {
                         resultActiveChannels.push(channel);
+                        if (channel.user._id != user._id && channel.lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
+                            unreadMessageCount++;
+                    }
                     else
                         resultArchivedChannels.push(channel);
                 }
                 setActiveChannels(resultActiveChannels);
                 setArchivedChannels(resultArchivedChannels);
+                if (unreadMessageCount > 0)
+                    setChatBadge(true);
             });
     }, []);
     const renderItem = ({ item }) => (

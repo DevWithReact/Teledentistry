@@ -11,6 +11,7 @@ import DentistProfileScreen from '../containers/Dentist/Profile';
 import ChannelScreen from '../containers/Channel';
 import Images from '../utils/Images';
 import { AuthContext } from '../AuthProvider';
+import { styles } from './styles';
 
 
 const Tab = createBottomTabNavigator();
@@ -50,7 +51,7 @@ const dentistTabs = [
     }
 ]
 const HomeNavigator = ({navigation}) => {
-    const { user, userProfile } = React.useContext(AuthContext);
+    const { user, chatBadge, userProfile } = React.useContext(AuthContext);
     if (!userProfile) {
         return null;
     }
@@ -69,7 +70,20 @@ const HomeNavigator = ({navigation}) => {
                     name={t.name}
                     options={{                            
                         tabBarShowLabel: false,
-                        tabBarIcon: ({focused, color}) => <Image source={Images[focused ? t.icon : `${t.icon}_inactive`]}/>
+                        tabBarIcon: ({focused, color}) => {
+                            if (t.name === "Chat") {
+                                return (
+                                    <View style={styles.badgeWrapper}>
+                                        {chatBadge && <View style={styles.badge}/>}
+                                        <Image source={Images[focused ? t.icon : `${t.icon}_inactive`]}/>
+                                    </View>
+                                )
+                            } else {
+                                return (
+                                    <Image source={Images[focused ? t.icon : `${t.icon}_inactive`]}/>
+                                );
+                            }
+                        }
                     }}
                 >
                  {
