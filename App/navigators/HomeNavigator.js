@@ -10,6 +10,7 @@ import DentistMailScreen from '../containers/Dentist/Mail';
 import DentistProfileScreen from '../containers/Dentist/Profile';
 import ChannelScreen from '../containers/Channel';
 import Images from '../utils/Images';
+import { AuthContext } from '../AuthProvider';
 
 
 const Tab = createBottomTabNavigator();
@@ -49,7 +50,8 @@ const dentistTabs = [
     }
 ]
 const HomeNavigator = ({navigation}) => {
-    const isConsumer = true;
+    const { user, userProfile } = React.useContext(AuthContext);
+    const isConsumer = userProfile.type === "consumer";
     const activeTabs = 
         isConsumer ? consumerTabs : dentistTabs;
 
