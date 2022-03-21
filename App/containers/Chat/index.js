@@ -48,19 +48,39 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import { getUserProfile, setUserTyping } from '../../services/FirebaseService';
 
 const ChatScreen = ({ route, navigation }) => {
-  const { channel }  = route.params;
+  const { channel: paramChannel }  = route.params;
+  const [channel, setChannel] = React.useState(paramChannel);
   const { user, userProfile } = React.useContext(AuthContext);
   const [messages, setMessages] = React.useState([]);
   const [mediaType, setMediaType] = React.useState("");
   const [imagePickerModal, setImagePickerModal] = React.useState(false);
   const [uploading, setUploading] = React.useState(false);
   const [uploadingProgress, setUploadingProgress] = React.useState(0);
+  const [userInput, setUserInput] = React.useState("");
+  const [typing, setTyping] = React.useState(false);
+  const typingTimer = React.useRef(0);
 
+  const otherTyping = channel[`typing_${userProfile._id}`];
   const chatTitle = channel.other.type === "dentist" ? "Dr. " + channel.other.name : channel.other.name;
 
   React.useEffect(() => {
+    const channelSubscriber = firestore()
+      .collection('channels')
+      .doc(channel.id)
+      .onSnapshot(async snapshot => {
+        if (snapshot.exists) {
+          const result = snapshot.data();
+          if (userProfile.type === "dentist")
+            result["other"] = await getUserProfile(channel.consumer);
+          else
+            result["other"] = await getUserProfile(channel.dentist);
+              
+          setChannel(result);
+        }
+      });
     const subscriber = firestore()
       .collection('channels')
       .doc(channel.id)
@@ -82,8 +102,15 @@ const ChatScreen = ({ route, navigation }) => {
         }));
         setMessages(result);
       })
-    return () => subscriber();
+    return () => {
+      subscriber();
+      channelSubscriber();
+    };
   }, [])
+
+  React.useEffect(() => {
+    setUserTyping(channel.id, user.uid, typing);
+  }, [typing]);
 
   const sendMessage = (message) => {    
     setMessages(previousMessages => GiftedChat.append(previousMessages, message))
@@ -245,6 +272,16 @@ const ChatScreen = ({ route, navigation }) => {
       });    
   }
 
+  const onTextChanged = (e) => {
+    setUserInput(e);
+    setTyping(true);
+    if (typingTimer.current)
+      clearTimeout(typingTimer.current);
+    typingTimer.current = setTimeout(() => {
+      setTyping(false);
+    }, 10000)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.appBar}>
@@ -262,24 +299,30 @@ const ChatScreen = ({ route, navigation }) => {
           {chatTitle}
         </Text>
         <View style={styles.end_actions}>                    
-          <IconButton
-            icon={Images.ic_webcam}
-            width={24}
-            height={24}
-            onPress={() => { 
-              setMediaType("video");
-              setImagePickerModal(true);
-            }}
-          />
-          <View style={styles.space}/>
-          <IconButton
-            icon={Images.ic_export}
-            width={20}
-            height={20}
-            onPress={() => {
-              openFilePicker();
-            }}
-          />
+          {channel.active && (
+            <>
+              <IconButton
+                icon={Images.ic_webcam}
+                width={24}
+                height={24}
+                disabled={!channel.active}
+                onPress={() => { 
+                  setMediaType("video");
+                  setImagePickerModal(true);
+                }}
+              />
+              <View style={styles.space}/>
+              <IconButton
+                icon={Images.ic_export}
+                width={20}
+                height={20}
+                disabled={!channel.active}
+                onPress={() => {
+                  openFilePicker();
+                }}
+              />
+            </>
+          )}
           <View style={styles.space}/>
           <Menu>
             <MenuTrigger>
@@ -294,6 +337,7 @@ const ChatScreen = ({ route, navigation }) => {
                 onSelect={() => {
                   archiveChat();
                 }}
+                disabled={!channel.active}
               >
                 <Text style={styles.menuOption}>Archive</Text>
               </MenuOption>
@@ -313,9 +357,15 @@ const ChatScreen = ({ route, navigation }) => {
         messages={messages}
         onSend={messages => onSend(messages)}
         user={userProfile}
-        isTyping={true}
         renderMessage={renderMessage}
-        renderInputToolbar={(props) => (
+        renderChatFooter={(props) => otherTyping ? (
+          <Text style={styles.typing}>{channel.other.name} is typing...</Text>
+        ) : null}
+        renderInputToolbar={(props) => !channel.active ? (
+          <View>
+            <Text style={styles.archivedText}>This chat is archived.</Text>
+          </View>
+          ) : (
           <InputToolbar
             {...props}
             containerStyle={styles.inputToolbar}
@@ -338,12 +388,28 @@ const ChatScreen = ({ route, navigation }) => {
             <Composer
               {...props}
               textInputStyle={styles.composerInput}
+              onTextChanged={onTextChanged}
+              text={userInput}
             />
             <Send
               {...props}
               containerStyle={styles.sendStyle}
+              alwaysShowSend={true}
+              disabled={!userInput}
+              sendButtonProps={{
+                onPress: () => {
+                  sendMessage({
+                    _id: uuidv4(),
+                    user: userProfile,
+                    text: userInput,
+                    createdAt: new Date(),
+                  });
+                  setUserInput("");
+                  setTyping(false);
+                }
+              }}
             >
-              <Text style={[ApplicationStyles.primaryLabel, {fontSize: scale(14)}]}>Send</Text>
+              <Text style={[userInput ? ApplicationStyles.primaryLabel : ApplicationStyles.secondaryLabel, {fontSize: scale(14)}]}>Send</Text>
             </Send>
           </View>
         )}

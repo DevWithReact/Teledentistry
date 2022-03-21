@@ -98,5 +98,17 @@ export const styles = StyleSheet.create({
     color: Colors.textColor,
     paddingHorizontal: scale(6),
     paddingVertical: scale(6),
+  },
+  archivedText: {
+    fontFamily: Fonts.EpilogueBold,
+    fontSize: textScale(14),
+    textAlign: 'center',
+    fontWeight: '700',
+    color: Colors.primaryColor,
+    paddingHorizontal: scale(6),
+    paddingVertical: scale(6),
+  },
+  typing: {
+    height: 45
   }
 });

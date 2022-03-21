@@ -155,7 +155,6 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                     <IconButton
                         icon={Images.ic_search}
                         onPress={() => {
-                            parentNavigation.navigate("Chat");
                         }}
                     />
                 </View>

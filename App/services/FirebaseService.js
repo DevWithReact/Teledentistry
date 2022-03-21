@@ -41,3 +41,14 @@ export function setUserOnline(id, online) {
       merge: true
     });
 }
+export function setUserTyping(id, userid, typing) {
+  console.log(`typing_${userid}`)
+  return firestore()
+    .collection('channels')
+    .doc(id)
+    .set({
+      [`typing_${userid}`]: typing
+    }, {
+      merge: true
+    });
+}
