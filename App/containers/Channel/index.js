@@ -95,7 +95,6 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
         firestore()
             .collection('channels')
             .where(userProfile.type, '==', userProfile._id)
-            .orderBy('updatedAt', 'asc')
             .onSnapshot(async snapshot => {
                 console.log("Updated channel");
                 if (!snapshot)
