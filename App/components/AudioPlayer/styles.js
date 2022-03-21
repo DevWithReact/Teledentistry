@@ -9,8 +9,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: Colors.transparent,
-    borderRadius: 30,
-    padding: 10,
+    paddingVertical: scale(2),
   },
   playerWrapper: {
     flexDirection: 'row',
@@ -19,6 +18,6 @@ export const styles = StyleSheet.create({
   slider: {
     flex: 1,
     alignSelf: 'center',
-    marginHorizontal: Platform.select({ios: 5}),
+    marginLeft: Platform.select({ios: 5}),
   }
 });

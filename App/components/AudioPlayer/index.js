@@ -118,19 +118,19 @@ const AudioPlayer = ({url, }) => {
       style={styles.container}>
       <View style={styles.playerWrapper}>
         {loading ?
-          <ActivityIndicator size="small" color="#ff6600" /> : 
+          <ActivityIndicator size="small" color={Colors.primaryColor} /> : 
           <>
             {playState == 'playing' && (
               <TouchableOpacity
                 onPress={pause}
-                style={{marginRight: 10}}>
+                style={{marginRight: 5}}>
                 <FontAwesome name="pause" color={Colors.black} size={15} />
               </TouchableOpacity>
             )}
             {playState == 'paused' && (
               <TouchableOpacity
                 onPress={play}
-                style={{marginRight: 10}}>
+                style={{marginRight: 5}}>
                 <FontAwesome name="play" color={Colors.black} size={15} />
               </TouchableOpacity>
             )}
