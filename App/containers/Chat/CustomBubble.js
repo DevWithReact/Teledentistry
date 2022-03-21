@@ -246,10 +246,12 @@ export default class Bubble extends React.Component {
     if (this.props.currentMessage.audio) {
       const { containerStyle, wrapperStyle, ...messageAudioProps } = this.props
       return (
-        <AudioPlayer
-          {...messageAudioProps}
-          url={this.props.currentMessage.audio}
-        />
+        <View style={styles.audioWrapper}>
+          <AudioPlayer
+            {...messageAudioProps}
+            url={this.props.currentMessage.audio}
+          />
+        </View>
       )
     }    
   }
@@ -479,6 +481,9 @@ const styles = StyleSheet.create({
   },
   downloadFileName: {
     maxWidth: scale(150),
+  },
+  audioWrapper: {
+    width: scale(303)
   }
 })
 
