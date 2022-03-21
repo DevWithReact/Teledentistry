@@ -95,14 +95,17 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
         firestore()
             .collection('channels')
             .where(userProfile.type, '==', userProfile._id)
-            .get()
-            .then(async querySnapshot => {
-                console.log('Total channels: ', querySnapshot.size);
+            .orderBy('updatedAt', 'asc')
+            .onSnapshot(async snapshot => {
+                console.log("Updated channel");
+                if (!snapshot)
+                    return;
+                console.log('Total channels: ', snapshot.docs.length);
                 const savedUsers = {};
                 const resultActiveChannels = [];
                 const resultArchivedChannels = [];
                 const channels = [];
-                querySnapshot.forEach(async documentSnapshot => {
+                snapshot.forEach(async documentSnapshot => {
                     console.log('Channel ID: ', documentSnapshot.id, documentSnapshot.data());
                     var channel = documentSnapshot.data();
                     channel.id = documentSnapshot.id;

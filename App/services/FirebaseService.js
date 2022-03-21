@@ -12,6 +12,9 @@ export function getUserProfile(id) {
         return user;
       }
       return null;
+    })
+    .catch(e => {
+      console.error("getUserProfile", e)
     });
 }
 

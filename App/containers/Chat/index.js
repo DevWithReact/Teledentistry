@@ -106,6 +106,7 @@ const ChatScreen = ({ route, navigation }) => {
       .doc(channel.id)
       .set({
         ...channel,
+        updatedAt: new Date(),
         lastMsg: message
       });
   }
