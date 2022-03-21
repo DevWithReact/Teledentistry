@@ -74,6 +74,7 @@ const AudioPlayer = ({url, }) => {
   }
 
   onSliderEditing = value => {
+    console.log('onSlider', value, sound)
     if (sound.current) {
       sound.current.setCurrentTime(value);
       setPlaySeconds(value);
@@ -146,6 +147,7 @@ const AudioPlayer = ({url, }) => {
           onTouchStart={onSliderEditStart}
           onTouchEnd={onSliderEditEnd}
           onValueChange={onSliderEditing}
+          onSlidingComplete={onSliderEditing}
           value={playSeconds}
           maximumValue={duration}
           maximumTrackTintColor={Colors.black}
