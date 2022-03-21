@@ -26,8 +26,9 @@ export const styles = StyleSheet.create({
     color: Colors.black,
   },
   textDescActive: {
-    fontFamily: Fonts.EpilogueBold,
+    fontFamily: Fonts.EpilogueSemiBold,
     fontSize: textScale(12),
+    fontWeight: '700',
     color: Colors.textColor,
     marginTop: scale(5)
   },
