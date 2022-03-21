@@ -35,7 +35,7 @@ const ChannelCard = ({ avatar, title, message, time, active, onPress }) => {
             />
             <View style={styles.sectionMiddle}>
                 <Text style={styles.textHeading}>{title}</Text>
-                <Text style={styles.textDesc}>{lastMsg}</Text>
+                <Text style={active ? styles.textDescActive : styles.textDesc}>{lastMsg}</Text>
                 <Text style={styles.textDesc}>{convertChatTime(time)}</Text>
             </View>
             <Image

@@ -25,6 +25,12 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.black,
   },
+  textDescActive: {
+    fontFamily: Fonts.EpilogueBold,
+    fontSize: textScale(12),
+    color: Colors.textColor,
+    marginTop: scale(5)
+  },
   textDesc: {
     fontFamily: Fonts.EpilogueBold,
     fontSize: textScale(12),
