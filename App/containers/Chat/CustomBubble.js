@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     maxWidth: scale(150),
   },
   audioWrapper: {
-    width: scale(303)
+    width: scale(283)
   }
 })
 
