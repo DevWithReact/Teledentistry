@@ -41,7 +41,16 @@ const AudioPlayer = ({url, }) => {
       }
       setLoading(false);
     });
+    
+    return () => {
+      if (sound.current) {
+        sound.current.release();
+        sound.current = null;
+      }
+    }
+  }, []);
 
+  React.useEffect(() => {
     timeout.current = setInterval(() => {
       if (
         sound.current &&
@@ -56,15 +65,12 @@ const AudioPlayer = ({url, }) => {
     }, 100);
     
     return () => {
-      if (sound.current) {
-        sound.current.release();
-        sound.current = null;
-      }
       if (timeout.current) {
         clearInterval(timeout.current);
       }
     }
-  }, []);
+  }, [playState]);
+  
   onSliderEditStart = () => {
     sliderEditing.current = true;
   }
