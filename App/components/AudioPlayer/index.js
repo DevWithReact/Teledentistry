@@ -80,7 +80,6 @@ const AudioPlayer = ({url, }) => {
   }
 
   onSliderEditing = value => {
-    console.log('onSlider', value, sound)
     if (sound.current) {
       sound.current.setCurrentTime(value);
       setPlaySeconds(value);
