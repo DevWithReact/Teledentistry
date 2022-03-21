@@ -63,6 +63,7 @@ const HomeNavigator = ({navigation}) => {
     return (
         <Tab.Navigator
             screenOptions={{ headerShown: false }}
+            initialRouteName="Chat"
         >
         {
             activeTabs.map(t => (
