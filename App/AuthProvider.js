@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import {
   AppState
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { setUserOnline } from './services/FirebaseService';
 export const AuthContext = createContext({});
 
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
       async authenticatedUser => {
         authenticatedUser ? setUser(authenticatedUser) : setUser(null);
         if (authenticatedUser) {
+          console.log("Auth User", authenticatedUser);
           await setUserOnline(authenticatedUser.uid, AppState.currentState === "active");
           firestore()
             .collection('users')
@@ -26,7 +28,12 @@ export const AuthProvider = ({ children }) => {
             .then(documentSnapshot => {
               console.log('User exists: ', documentSnapshot.exists);
               if (documentSnapshot.exists) {
-                console.log('User Profile', documentSnapshot.data());
+                console.log('User Profile', documentSnapshot.data());                
+                Toast.show({
+                  type: 'success',
+                  text1: 'Welcome',
+                  text2: 'Log in success!👋'
+                });
                 setUserProfile(documentSnapshot.data());
               }
             });
@@ -92,7 +99,8 @@ export const AuthProvider = ({ children }) => {
         }
       }}
     >
-      {children}
+      {children}      
+      <Toast />
     </AuthContext.Provider>
   )
 }
