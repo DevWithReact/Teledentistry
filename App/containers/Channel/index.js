@@ -60,7 +60,8 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                         channel["other"] = dentist;
                     if (channel.active) {
                         resultActiveChannels.push(channel);
-                        if (channel.user._id != user._id && channel.lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
+                        const lastMsg = channel.lastMsg;
+                        if (lastMsg.user._id != user._id && lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
                             unreadMessageCount++;
                     }
                     else
