@@ -324,6 +324,15 @@ const ChatScreen = ({ route, navigation }) => {
           {channel.active && (
             <>
               <IconButton
+                icon={Images.ic_voice}
+                width={24}
+                height={24}
+                disabled={!channel.active}
+                onPress={() => {
+                  onSoundRecord();
+                }}
+              />
+              <IconButton
                 icon={Images.ic_webcam}
                 width={24}
                 height={24}
