@@ -68,6 +68,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
     }, []);
     const renderItem = ({ item }) => (
       <ChannelCard
+        currentUser={userProfile}
         avatar={item["other"].avatar}
         title={item["other"].name}
         message={item.lastMsg}

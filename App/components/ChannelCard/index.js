@@ -11,7 +11,7 @@ import Images from '../../utils/Images';
 import Avatar from '../Avatar';
 import { convertChatTime } from '../../utils/commonUtil';
 
-const ChannelCard = ({ avatar, title, message, lastSeen, time, active, onPress }) => {
+const ChannelCard = ({ currentUser, avatar, title, message, lastSeen, time, active, onPress }) => {
     let lastMsg = "";
     if (message.file) {
         lastMsg = `File sent [${message.file.name}]`;
@@ -22,6 +22,9 @@ const ChannelCard = ({ avatar, title, message, lastSeen, time, active, onPress }
     } else {
         lastMsg = message.text;
     }
+    let lastActive = false;
+    if (lastMessage.user._id != currentUser._id && lastMsg._id !== lastSeen)
+        lastActive = true;
     return (
         <TouchableOpacity
             style={styles.container}
@@ -35,7 +38,7 @@ const ChannelCard = ({ avatar, title, message, lastSeen, time, active, onPress }
             />
             <View style={styles.sectionMiddle}>
                 <Text style={styles.textHeading}>{title}</Text>
-                <Text style={lastMsg._id !== lastSeen ? styles.textDescActive : styles.textDesc}>{lastMsg}</Text>
+                <Text style={lastActive? styles.textDescActive : styles.textDesc}>{lastMsg}</Text>
                 <Text style={styles.textDesc}>{convertChatTime(time)}</Text>
             </View>
             <Image
@@ -47,6 +50,7 @@ const ChannelCard = ({ avatar, title, message, lastSeen, time, active, onPress }
 };
 
 ChannelCard.propTypes = {
+    currentUser: PropTypes.object,
     avatar: PropTypes.any,
     title: PropTypes.string,
     message: PropTypes.object,
