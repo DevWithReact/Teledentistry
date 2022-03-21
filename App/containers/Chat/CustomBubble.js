@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
   wrapper: {
     minHeight: 20,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(63, 95, 194, 0.2)',    
+    backgroundColor: Colors.bubbleBackground,    
     paddingVertical: scale(2)
   },
   username: {
@@ -483,7 +483,8 @@ const styles = StyleSheet.create({
     maxWidth: scale(150),
   },
   audioWrapper: {
-    width: scale(303)
+    width: scale(303),
+    marginVertical: scale(3)
   }
 })
 
