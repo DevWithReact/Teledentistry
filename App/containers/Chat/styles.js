@@ -110,5 +110,8 @@ export const styles = StyleSheet.create({
   },
   typing: {
     height: 45
+  },
+  footer: {    
+    height: 45
   }
 });
