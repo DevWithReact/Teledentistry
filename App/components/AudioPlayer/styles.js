@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: Colors.transparent,
-    paddingVertical: scale(4),
+    paddingVertical: scale(7),
   },
   playerWrapper: {
     flexDirection: 'row',
