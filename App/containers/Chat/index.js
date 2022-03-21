@@ -382,7 +382,7 @@ const ChatScreen = ({ route, navigation }) => {
         renderMessage={renderMessage}
         renderChatFooter={(props) => otherTyping ? (
           <Text style={styles.typing}>{channel.other.name} is typing...</Text>
-        ) : null}
+        ) : <View style={styles.footer}/>}
         renderInputToolbar={(props) => !channel.active ? (
           <View>
             <Text style={styles.archivedText}>This chat is archived.</Text>
