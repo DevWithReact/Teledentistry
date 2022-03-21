@@ -59,7 +59,7 @@ const ChatScreen = ({ route, navigation }) => {
   const [typing, setTyping] = React.useState(false);
   const typingTimer = React.useRef(0);
 
-  const otherTyping = channel[`typing_${userProfile._id}`];
+  const otherTyping = channel[`typing_${channel.other._id}`];
   const chatTitle = channel.other.type === "dentist" ? "Dr. " + channel.other.name : channel.other.name;
 
   React.useEffect(() => {
