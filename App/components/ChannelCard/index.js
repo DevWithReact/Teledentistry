@@ -19,6 +19,8 @@ const ChannelCard = ({ currentUser, avatar, title, message, lastSeen, time, acti
         lastMsg = "Video sent";
     } else if (message.image) {
         lastMsg = "Image sent";
+    } else if (message.audio) {
+        lastMsg = "Audio sent";
     } else {
         lastMsg = message.text;
     }
