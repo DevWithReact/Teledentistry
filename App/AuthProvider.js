@@ -67,7 +67,9 @@ export const AuthProvider = ({ children }) => {
         userProfile,
         loading,
         chatBadge,
-        setChatBadge,
+        setBadge: (b) => {
+          setChatBadge(b);
+        },
         login: async (email, password) => {
           if (email !== '' && password !== '') {
             setLoading(true);

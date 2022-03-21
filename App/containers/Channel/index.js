@@ -19,7 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import { getUserProfile } from '../../services/FirebaseService';
 
 const ChannelScreen = ({ navigation, parentNavigation }) => {
-    const {user, userProfile, setChatBadge}  = React.useContext(AuthContext);    
+    const {user, userProfile, setBadge}  = React.useContext(AuthContext);    
     const [activeChannels, setActiveChannels] = React.useState([]);
     const [archivedChannels, setArchivedChannels] = React.useState([]);
 
@@ -61,7 +61,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                     if (channel.active) {
                         resultActiveChannels.push(channel);
                         const lastMsg = channel.lastMsg;
-                        if (lastMsg.user._id != user._id && lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
+                        if (lastMsg.user._id != userProfile._id && lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
                             unreadMessageCount++;
                     }
                     else
@@ -69,8 +69,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                 }
                 setActiveChannels(resultActiveChannels);
                 setArchivedChannels(resultArchivedChannels);
-                if (unreadMessageCount > 0)
-                    setChatBadge(true);
+                setBadge(unreadMessageCount > 0);
             });
     }, []);
     const renderItem = ({ item }) => (

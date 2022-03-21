@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     borderRadius: scale(3.5),
     backgroundColor: Colors.badgeColor,
     position: 'absolute',
-    left: scale(3),
-    top: scale(3)
+    left: scale(0),
+    top: scale(0)
   },
 });
