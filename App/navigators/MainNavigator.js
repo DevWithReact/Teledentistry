@@ -12,8 +12,7 @@ import { AuthContext } from '../AuthProvider';
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
-    const { user } = useContext(AuthContext);
-    const isSignedIn  = true;
+    const { user, userProfile } = useContext(AuthContext);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -30,7 +29,7 @@ const MainNavigator = () => {
     <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
         {
-        user ? (
+        userProfile ? (
             <>
                 <Stack.Screen name="Home" component={HomeNavigator} />
                 <Stack.Screen name="Chat" component={ChatScreen}/>

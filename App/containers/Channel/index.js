@@ -17,74 +17,7 @@ import Images from '../../utils/Images';
 import {styles} from './styles';
 import firestore from '@react-native-firebase/firestore';
 import { getUserProfile } from '../../services/FirebaseService';
-const templateActive = [{
-    id: "1",
-    avatar: Images.template_user,
-    title: "Dr. Patricia Speidel, DMD",
-    message: "Hey! Wanted to reach out regarding ...",
-    time: "12:45 PM"
-}, {
-    id: "2",
-    avatar: Images.template_user,
-    title: "Susie Cassin, RDH",
-    message: "Just make sure you’re flossing regularl...",
-    time: "11/15/2021"
-},{
-    id: "3",
-    avatar: Images.template_user,
-    title: "Dr. Patricia Speidel, DMD",
-    message: "Hey! Wanted to reach out regarding ...",
-    time: "12:45 PM"
-}, {
-    id: "4",
-    avatar: Images.template_user,
-    title: "Susie Cassin, RDH",
-    message: "Just make sure you’re flossing regularl...",
-    time: "11/15/2021"
-}];
-const templateArchived = [{
-    id: "1",
-    avatar: Images.template_user,
-    title: "Dr. Patricia Speidel, DMD",
-    message: "Hey! Wanted to reach out regarding ...",
-    time: "12:45 PM"
-}, {
-    id: "2",
-    avatar: Images.template_user,
-    title: "Susie Cassin, RDH",
-    message: "Just make sure you’re flossing regularl...",
-    time: "11/15/2021"
-}, {
-    id: "3",
-    avatar: Images.template_user,
-    title: "Dr. Patricia Speidel, DMD",
-    message: "Hey! Wanted to reach out regarding ...",
-    time: "12:45 PM"
-}, {
-    id: "4",
-    avatar: Images.template_user,
-    title: "Susie Cassin, RDH",
-    message: "Just make sure you’re flossing regularl...",
-    time: "11/15/2021"
-}, {
-    id: "5",
-    avatar: Images.template_user,
-    title: "Susie Cassin, RDH",
-    message: "Just make sure you’re flossing regularl...",
-    time: "11/15/2021"
-}, {
-    id: "6",
-    avatar: Images.template_user,
-    title: "Dr. Patricia Speidel, DMD",
-    message: "Hey! Wanted to reach out regarding ...",
-    time: "12:45 PM"
-}, {
-    id: "7",
-    avatar: Images.template_user,
-    title: "Susie Cassin, RDH",
-    message: "Just make sure you’re flossing regularl...",
-    time: "11/15/2021"
-}];
+
 const ChannelScreen = ({ navigation, parentNavigation }) => {
     const {user, userProfile}  = React.useContext(AuthContext);    
     const [activeChannels, setActiveChannels] = React.useState([]);
@@ -138,6 +71,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
         avatar={item["other"].avatar}
         title={item["other"].name}
         message={item.lastMsg}
+        lastSeen={item[`lastSeen_${userProfile._id}`]}
         time={new Date()}
         active={item["other"].online}
         onPress={() => {

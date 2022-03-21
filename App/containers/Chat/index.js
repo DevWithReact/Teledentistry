@@ -48,7 +48,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import { getUserProfile, setUserTyping } from '../../services/FirebaseService';
+import { getUserProfile, setReadAll, setUserTyping } from '../../services/FirebaseService';
 
 const ChatScreen = ({ route, navigation }) => {
   const { channel: paramChannel }  = route.params;
@@ -101,6 +101,10 @@ const ChatScreen = ({ route, navigation }) => {
           emoticon: doc.data().emoticon
         }));
         setMessages(result);
+        if (result.length) {
+          console.log(result[0]);
+          setReadAll(channel.id, userProfile._id, result[0]._id);
+        }
       })
     return () => {
       subscriber();

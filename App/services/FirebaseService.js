@@ -42,12 +42,22 @@ export function setUserOnline(id, online) {
     });
 }
 export function setUserTyping(id, userid, typing) {
-  console.log(`typing_${userid}`)
   return firestore()
     .collection('channels')
     .doc(id)
     .set({
       [`typing_${userid}`]: typing
+    }, {
+      merge: true
+    });
+}
+
+export function setReadAll(id, userid, lastMsg) {
+  return firestore()
+    .collection('channels')
+    .doc(id)
+    .set({
+      [`lastSeen_${userid}`]: lastMsg
     }, {
       merge: true
     });

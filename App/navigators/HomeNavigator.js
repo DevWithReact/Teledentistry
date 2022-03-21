@@ -51,6 +51,9 @@ const dentistTabs = [
 ]
 const HomeNavigator = ({navigation}) => {
     const { user, userProfile } = React.useContext(AuthContext);
+    if (!userProfile) {
+        return null;
+    }
     const isConsumer = userProfile.type === "consumer";
     const activeTabs = 
         isConsumer ? consumerTabs : dentistTabs;
