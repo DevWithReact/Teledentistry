@@ -12,6 +12,7 @@ import Slider from '@react-native-community/slider';
 import Sound from 'react-native-sound';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getAudioTimeString } from '../../utils/commonUtil';
+import { styles } from './styles';
 
 const AudioPlayer = ({url, }) => {
   const [playState, setPlayState] = useState('paused'); //playing, paused
@@ -113,36 +114,30 @@ const AudioPlayer = ({url, }) => {
 
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#f0f0f0',
-        borderRadius: 30,
-        padding: 10,
-      }}>
-      <View style={{marginHorizontal: 5, flexDirection: 'row', alignItems: "center"}}>
+      style={styles.container}>
+      <View style={styles.playerWrapper}>
         {loading ?
           <ActivityIndicator size="small" color="#ff6600" /> : 
           <>
             {playState == 'playing' && (
               <TouchableOpacity
                 onPress={pause}
-                style={{marginHorizontal: 10}}>
-                <FontAwesome name="pause" color="#000" size={15} />
+                style={{marginRight: 10}}>
+                <FontAwesome name="pause" color={Colors.black} size={15} />
               </TouchableOpacity>
             )}
             {playState == 'paused' && (
               <TouchableOpacity
                 onPress={play}
-                style={{marginHorizontal: 10}}>
-                <FontAwesome name="play" color="#000" size={15} />
+                style={{marginRight: 10}}>
+                <FontAwesome name="play" color={Colors.black} size={15} />
               </TouchableOpacity>
             )}
-            <Text style={{color: '#000', alignSelf: 'center'}}>
+            <Text style={{color: Colors.black, alignSelf: 'center'}}>
               {currentTimeString}
             </Text>
-            <Text style={{color: '#000', marginHorizontal: 5}}>/</Text>
-            <Text style={{color: '#000', alignSelf: 'center'}}>
+            <Text style={{color: Colors.black, marginHorizontal: 5}}>/</Text>
+            <Text style={{color: Colors.black, alignSelf: 'center'}}>
               {durationString}
             </Text>
           </>}
@@ -152,14 +147,10 @@ const AudioPlayer = ({url, }) => {
           onValueChange={onSliderEditing}
           value={playSeconds}
           maximumValue={duration}
-          maximumTrackTintColor="#000"
-          minimumTrackTintColor="#000"
-          thumbTintColor="#000"
-          style={{
-            flex: 1,
-            alignSelf: 'center',
-            marginHorizontal: Platform.select({ios: 5}),
-          }}
+          maximumTrackTintColor={Colors.black}
+          minimumTrackTintColor={Colors.black}
+          thumbTintColor={Colors.black}
+          style={styles.slider}
         />
       </View>
     </View>
