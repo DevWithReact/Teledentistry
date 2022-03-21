@@ -368,6 +368,7 @@ export default class Bubble extends React.Component {
             <View>
               {this.renderCustomView()}
               {this.renderMessageImage()}
+              {this.renderAudio()}
               {this.renderMessageText()}
             </View>
           </View>
