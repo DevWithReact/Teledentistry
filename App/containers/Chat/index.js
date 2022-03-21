@@ -325,8 +325,8 @@ const ChatScreen = ({ route, navigation }) => {
             <>
               <IconButton
                 icon={Images.ic_voice}
-                width={24}
-                height={24}
+                width={12}
+                height={20}
                 disabled={!channel.active}
                 onPress={() => {
                   onSoundRecord();
