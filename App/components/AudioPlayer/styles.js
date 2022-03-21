@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.transparent,
     paddingVertical: scale(7),
+    paddingLeft: scale(10)
   },
   playerWrapper: {
     flexDirection: 'row',
