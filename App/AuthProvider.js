@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
                 setUserProfile(documentSnapshot.data());
               }
             });
+        } else {
+          setUserProfile(null);
         }
       }
     );
