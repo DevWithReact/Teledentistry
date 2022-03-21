@@ -30,6 +30,7 @@ import CustomMessageImage from './CustomMessageImage';
 import Colors from '../../utils/Colors';
 import Popover from 'react-native-popover-view';
 import { addMessageEmoticon } from '../../services/FirebaseService';
+import AudioPlayer from '../../components/AudioPlayer';
 
 const { isSameUser, isSameDay } = utils
 
@@ -241,6 +242,17 @@ export default class Bubble extends React.Component {
     return null
   }
 
+  renderAudio() {
+    if (this.props.currentMessage.audio) {
+      const { containerStyle, wrapperStyle, ...messageAudioProps } = this.props
+      return (
+        <AudioPlayer
+          {...messageAudioProps}
+          url={this.props.currentMessage.audio}
+        />
+      )
+    }    
+  }
   renderCustomView() {
     if (this.props.renderCustomView) {
       return this.props.renderCustomView(this.props)
