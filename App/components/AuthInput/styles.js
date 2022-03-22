@@ -33,6 +33,8 @@ export const styles = StyleSheet.create({
     fontFamily: Fonts.EpilogueBold,
     fontWeight: '400',
     fontSize: textScale(14),
+    height: scale(45),
+    flex: 1,
     padding: 0,
     margin: 0,
     marginLeft: scale(19),
