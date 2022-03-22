@@ -28,6 +28,7 @@ export default {
   ic_camera: require('./../assets/images/Camera.png'),
   ic_voice: require('./../assets/images/voice.png'),
   ic_recording: require('./../assets/images/recording.png'),
+  ic_calendar: require('./../assets/images/calendar.png'),
 
   ic_react_smile: require('./../assets/images/react-smile.png'),
 

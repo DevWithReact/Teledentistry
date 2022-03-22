@@ -35,6 +35,10 @@ const DentistCard = ({ dentist }) => {
                         icon={Images.ic_chat}
                         onPress={() => {}}
                     />
+                    <IconButton
+                        icon={Images.ic_calendar}
+                        onPress={() => {}}
+                    />
                 </View>
             </View>
             <Image
