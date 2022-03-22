@@ -5,12 +5,16 @@ import {scale, scaleVertical} from '../../utils/scale';
 import { textScale } from '../../utils/textUtil';
 import { getDeviceHeight } from '../../utils/extension';
 
-export const styles = StyleSheet.create({
+export const styles = StyleSheet.create({  
   container: {
-    alignItems: 'center',
     flex: 1,
-    height: getDeviceHeight(),
-    backgroundColor: Colors.primaryColor
+    backgroundColor: Colors.primaryColor,
+  },
+  containerInner: {
+    alignItems: 'center',
+    position: 'relative',
+    flex: 1,
+    minHeight: scale(610)
   },
   logo: {    
       marginTop: scale(106),

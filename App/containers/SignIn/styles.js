@@ -7,10 +7,14 @@ import { getDeviceHeight } from '../../utils/extension';
 
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
-    height: Dimensions.get('window').height,
-    backgroundColor: Colors.primaryColor
+    backgroundColor: Colors.primaryColor,
+  },
+  containerInner: {
+    alignItems: 'center',
+    position: 'relative',
+    flex: 1,
+    minHeight: scale(610)
   },
   logo: {    
       marginTop: scale(106),
