@@ -21,33 +21,40 @@ const consumerTabs = [
     {
         name: "Mail",
         icon: "ic_mail",
+        disabled: true,
         component: ConsumerMailScreen
     }, {
         name: "Chat",
         icon: "ic_chat",
+        disabled: false,
         component: ChannelScreen
     }, {
         name: "Watch",
         icon: "ic_watch",
+        disabled: true,
         component: ConsumerWatchScreen
     }, {
         name: "Profile",
-        icon: "ic_user",
+        icon: "ic_user",        
+        disabled: false,
         component: ConsumerProfileScreen
     }
 ];
 const dentistTabs = [
     {
         name: "Mail",
-        icon: "ic_mail",
+        icon: "ic_mail",        
+        disabled: true,
         component: DentistMailScreen
     }, {
         name: "Chat",
-        icon: "ic_chat",
+        icon: "ic_chat",        
+        disabled: false,
         component: ChannelScreen
     }, {
         name: "Profile",
-        icon: "ic_user",
+        icon: "ic_user",        
+        disabled: true,
         component: DentistProfileScreen
     }
 ]
@@ -66,7 +73,7 @@ const HomeNavigator = ({navigation}) => {
             initialRouteName="Chat"
         >
         {
-            activeTabs.map(t => (
+            activeTabs.map(t => t.disabled ? null : (
                 <Tab.Screen
                     key={t.name}
                     name={t.name}
