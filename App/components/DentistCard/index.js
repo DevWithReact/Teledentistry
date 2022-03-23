@@ -37,6 +37,8 @@ const DentistCard = ({ dentist }) => {
                     />
                     <IconButton
                         icon={Images.ic_calendar}
+                        width={16}
+                        height={15}
                         onPress={() => {}}
                     />
                 </View>
