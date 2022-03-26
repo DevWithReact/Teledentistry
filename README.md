@@ -2,7 +2,8 @@
 React Native Chat app with firebase
 # Set Up Environment
 To begin, you need to install depnedencies with Yarn
-`` $ yarn ``
+
+``$ yarn``
 
 # Running on android
 ``yarn android``
