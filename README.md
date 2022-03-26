@@ -1,5 +1,8 @@
 # Teledentistry
 React Native Chat app with firebase
+
+![Alt text](/screenshot.png?raw=true "Figma design")
+
 # Set Up Environment
 To begin, you need to install depnedencies with Yarn
 
