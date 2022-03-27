@@ -28,7 +28,7 @@ const ChannelCard = ({ currentUser, avatar, title, message, lastSeen, time, acti
         lastMsg = message.text;
     }
     let lastActive = false;
-    if (message.user._id != currentUser._id && message._id !== lastSeen)
+    if (message && message.user._id != currentUser._id && message._id !== lastSeen)
         lastActive = true;
     return (
         <TouchableOpacity
