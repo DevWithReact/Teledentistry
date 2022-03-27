@@ -13,7 +13,10 @@ import { convertChatTime } from '../../utils/commonUtil';
 
 const ChannelCard = ({ currentUser, avatar, title, message, lastSeen, time, active, onPress }) => {
     let lastMsg = "";
-    if (message.file) {
+    if (!message) {
+        lastMsg = '';
+    }
+    else if (message.file) {
         lastMsg = `File sent [${message.file.name}]`;
     } else if (message.video) {
         lastMsg = "Video sent";

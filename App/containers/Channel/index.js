@@ -61,7 +61,7 @@ const ChannelScreen = ({ navigation, parentNavigation }) => {
                     if (channel.active) {
                         resultActiveChannels.push(channel);
                         const lastMsg = channel.lastMsg;
-                        if (lastMsg.user._id != userProfile._id && lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
+                        if (lastMsg && lastMsg.user._id != userProfile._id && lastMsg._id !== channel[`lastSeen_${userProfile._id}`])
                             unreadMessageCount++;
                     }
                     else
